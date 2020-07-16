@@ -13,5 +13,13 @@ namespace Motate {
 
 	volatile uint32_t Timer<SysTickTimerNum>::_motateTickCount = 0;
 
+        void SysTick_Handler() {
+            SysTickTimer._increment();
+            
+            if (SysTickTimer.interrupt) SysTickTimer.interrupt();
+
+            SysTickTimer._handleEvents();
+        }
+
 } // namespace Motate
 

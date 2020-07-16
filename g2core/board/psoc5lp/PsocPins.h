@@ -31,9 +31,6 @@
 #ifndef SAMPINS_H_ONCE
 #define SAMPINS_H_ONCE
 
-// #include <chip.h>
-//#include "sam.h"
-//#include "SamCommon.h"
 #include "MotateTimers.h"
 
 #include <functional>   // for std::function

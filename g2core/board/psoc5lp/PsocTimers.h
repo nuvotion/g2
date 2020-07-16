@@ -27,14 +27,10 @@
  OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-#ifndef SAMTIMERS_H_ONCE
-#define SAMTIMERS_H_ONCE
+#ifndef PSOCTIMERS_H_ONCE
+#define PSOCTIMERS_H_ONCE
 
-//#include "sam.h"
-//#include "SamCommon.h"
-#ifndef PWM_PTCR_TXTEN
-//#include "SamDMA.h"
-#endif
+#include "cypress.h"
 #include <functional> // for std::function and related
 #include <type_traits> // for std::extent and std::alignment_of
 
@@ -180,24 +176,31 @@ namespace Motate {
 
     template <uint8_t timerNum>
     struct Timer {
-        Timer() { init(); };
+        Timer() { init(); }
+
         Timer(const TimerMode mode, const uint32_t freq) {
             init();
             setModeAndFrequency(mode, freq);
-        };
+        }
+
         void init() {
         }
+
         int32_t setModeAndFrequency(const TimerMode mode, uint32_t freq) {
             return 0;
         }
         void setInterruptPending() {
         }
+
         void start() {
         }
+
         void stop() {
         }
+
         void setInterrupts(const uint32_t interrupts, const int16_t channel = -1) {
         }
+
         static TimerChannelInterruptOptions getInterruptCause(int16_t &channel) {
             return kInterruptsOff;
         }
@@ -205,33 +208,33 @@ namespace Motate {
 
     template<uint8_t timerNum, uint8_t channelNum>
     struct TimerChannel : Timer<timerNum> {
-        TimerChannel() : Timer<timerNum>{} {};
-        TimerChannel(const TimerMode mode, const uint32_t freq) : Timer<timerNum>{mode, freq} {};
+        TimerChannel() : Timer<timerNum>{} {}
+        TimerChannel(const TimerMode mode, const uint32_t freq) : Timer<timerNum>{mode, freq} {}
 
         void setDutyCycle(const float ratio) {
             Timer<timerNum>::setDutyCycleForChannel(channelNum, ratio);
-        };
+        }
 
         float getDutyCycle() {
             return Timer<timerNum>::getDutyCycleForChannel(channelNum);
-        };
+        }
 
         void setExactDutyCycle(const uint32_t absolute) {
             Timer<timerNum>::setExactDutyCycleForChannel(channelNum, absolute);
-        };
+        }
 
         uint32_t getExactDutyCycle() {
             return Timer<timerNum>::getExactDutyCycleForChannel(channelNum);
-        };
+        }
 
 
         void setOutputOptions(const uint32_t options) {
             Timer<timerNum>::setOutputOptions(channelNum, options);
-        };
+        }
 
         void startPWMOutput() {
             Timer<timerNum>::startPWMOutput(channelNum);
-        };
+        }
 
         void stopPWMOutput() {
             Timer<timerNum>::stopPWMOutput(channelNum);
@@ -239,7 +242,7 @@ namespace Motate {
 
         void setInterrupts(const uint32_t interrupts) {
             Timer<timerNum>::setInterrupts(interrupts, channelNum);
-        };
+        }
 
         TimerChannelInterruptOptions getInterruptCause(int16_t &channel) {
             channel = 1;
@@ -269,6 +272,8 @@ namespace Motate {
         SysTickEvent *next;
     };
 
+    void SysTick_Handler();
+
     static const timer_number SysTickTimerNum = 0xFF;
     template <>
     struct Timer<SysTickTimerNum> {
@@ -282,13 +287,8 @@ namespace Motate {
 
         void init() {
             _motateTickCount = 0;
-
-            // Set Systick to 1ms interval, common to all SAM3 variants
-            //if (SysTick_Config(SamCommon::getPeripheralClockFreq() / 1000))
-            //{
-                // Capture error
-            //    while (true);
-            //}
+            CySysTickStart();
+            CySysTickSetCallback(0, SysTick_Handler);
         };
 
         // Return the current value of the counter. This is a fleeting thing...
@@ -394,4 +394,4 @@ namespace Motate {
 
 }
 
-#endif /* end of include guard: SAMTIMERS_H_ONCE */
+#endif /* end of include guard: PSOCTIMERS_H_ONCE */

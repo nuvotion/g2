@@ -64,7 +64,7 @@
 #include "MotateServiceCall.h"      // for ServiceCall<>
 
 using Motate::TimerChannel;
-using Motate::ServiceCall;
+//using Motate::ServiceCall;
 
 using Motate::pin_number;
 using Motate::Pin;
@@ -152,6 +152,7 @@ static OutputPin<Motate::kCoolant_EnablePinNumber> mist_enable_pin;
 /********************************
  * Function Prototypes (Common) *
  ********************************/
+#include "cypress.h"
 
 void hardware_init(void);			// master hardware init
 stat_t hardware_periodic();  // callback from the main loop (time sensitive)

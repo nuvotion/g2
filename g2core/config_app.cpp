@@ -546,6 +546,8 @@ const cfgItem_t cfgArray[] = {
     { "p1","p1wph",_fip, 3, pwm_print_p1wph, get_flt, pwm_set_pwm,(float *)&pwm.c[PWM_1].ccw_phase_hi, P1_CCW_PHASE_HI },
     { "p1","p1pof",_fip, 3, pwm_print_p1pof, get_flt, pwm_set_pwm,(float *)&pwm.c[PWM_1].phase_off,    P1_PWM_PHASE_OFF },
 
+
+#if 0
     // temperature configs - pid active values (read-only)
     // NOTICE: If you change these PID group keys, you MUST change the get/set functions too!
     { "pid1","pid1p",_fip, 3, tx_print_nul, cm_get_pid_p, set_ro, nullptr, 0 },
@@ -606,6 +608,7 @@ const cfgItem_t cfgArray[] = {
     { "he3","he3fm",_fi,  1, tx_print_nul, cm_get_fan_min_power,   cm_set_fan_min_power,   nullptr, 0 },
     { "he3","he3fl",_fi,  1, tx_print_nul, cm_get_fan_low_temp,    cm_set_fan_low_temp,    nullptr, 0 },
     { "he3","he3fh",_fi,  1, tx_print_nul, cm_get_fan_high_temp,   cm_set_fan_high_temp,   nullptr, 0 },
+#endif
 
     // Coordinate system offsets (G54-G59 and G92)
     { "g54","g54x",_fipc, 5, cm_print_cofs, cm_get_coord, cm_set_coord, nullptr, G54_X_OFFSET },
@@ -706,6 +709,7 @@ const cfgItem_t cfgArray[] = {
     { "jid","jidd",_d0, 0, tx_print_nul, get_data, set_data, (float *)&cfg.job_id[3], 0 },
 
     // Spindle functions
+#if 0
     { "sp","spmo", _iip, 0, sp_print_spmo, sp_get_spmo, sp_set_spmo, nullptr, SPINDLE_MODE },
     { "sp","spph", _bip, 0, sp_print_spph, sp_get_spph, sp_set_spph, nullptr, SPINDLE_PAUSE_ON_HOLD },
     { "sp","spde", _fip, 2, sp_print_spde, sp_get_spde, sp_set_spde, nullptr, SPINDLE_SPINUP_DELAY },
@@ -724,6 +728,7 @@ const cfgItem_t cfgArray[] = {
     { "co","cofp", _iip, 0, co_print_cofp, co_get_cofp, co_set_cofp, nullptr, COOLANT_FLOOD_POLARITY },
     { "co","com",  _i0,  0, co_print_com,  co_get_com,  co_set_com,  nullptr, 0 },   // mist coolant enable
     { "co","cof",  _i0,  0, co_print_cof,  co_get_cof,  co_set_cof,  nullptr, 0 },   // flood coolant enable
+#endif
 
     // General system parameters
     { "sys","jt",  _fipn, 2, cm_print_jt,  cm_get_jt,  cm_set_jt,  nullptr, JUNCTION_INTEGRATION_TIME },
@@ -808,6 +813,7 @@ const cfgItem_t cfgArray[] = {
     { "udd","udd3", _fip, 0, tx_print_int, get_data, set_data, &cfg.user_data_d[3], USER_DATA_D3 },
 #endif
 
+#if 0
     // Tool table offsets
     { "tof","tofx",_fipc, 5, cm_print_cofs, cm_get_tof, cm_set_tof, nullptr, 0 },
     { "tof","tofy",_fipc, 5, cm_print_cofs, cm_get_tof, cm_set_tof, nullptr, 0 },
@@ -1139,6 +1145,7 @@ const cfgItem_t cfgArray[] = {
     { "tt32","tt32a",_fipc, 5, cm_print_cofs, cm_get_tt, cm_set_tt, nullptr, TT32_A_OFFSET },
     { "tt32","tt32b",_fipc, 5, cm_print_cofs, cm_get_tt, cm_set_tt, nullptr, TT32_B_OFFSET },
     { "tt32","tt32c",_fipc, 5, cm_print_cofs, cm_get_tt, cm_set_tt, nullptr, TT32_C_OFFSET },
+#endif
 
     // Diagnostic parameters
 #ifdef __DIAGNOSTIC_PARAMETERS

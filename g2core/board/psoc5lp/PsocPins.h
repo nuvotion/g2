@@ -4,27 +4,27 @@
 
  Copyright (c) 2015 - 2016 Robert Giseburt
 
-	This file is part of the Motate Library.
+        This file is part of the Motate Library.
 
-	This file ("the software") is free software: you can redistribute it and/or modify
-	it under the terms of the GNU General Public License, version 2 as published by the
-	Free Software Foundation. You should have received a copy of the GNU General Public
-	License, version 2 along with the software. If not, see <http://www.gnu.org/licenses/>.
+        This file ("the software") is free software: you can redistribute it and/or modify
+        it under the terms of the GNU General Public License, version 2 as published by the
+        Free Software Foundation. You should have received a copy of the GNU General Public
+        License, version 2 along with the software. If not, see <http://www.gnu.org/licenses/>.
 
-	As a special exception, you may use this file as part of a software library without
-	restriction. Specifically, if other files instantiate templates or use macros or
-	inline functions from this file, or you compile this file and link it with  other
-	files to produce an executable, this file does not by itself cause the resulting
-	executable to be covered by the GNU General Public License. This exception does not
-	however invalidate any other reasons why the executable file might be covered by the
-	GNU General Public License.
+        As a special exception, you may use this file as part of a software library without
+        restriction. Specifically, if other files instantiate templates or use macros or
+        inline functions from this file, or you compile this file and link it with  other
+        files to produce an executable, this file does not by itself cause the resulting
+        executable to be covered by the GNU General Public License. This exception does not
+        however invalidate any other reasons why the executable file might be covered by the
+        GNU General Public License.
 
-	THE SOFTWARE IS DISTRIBUTED IN THE HOPE THAT IT WILL BE USEFUL, BUT WITHOUT ANY
-	WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES
-	OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT
-	SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-	LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF
-	OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+        THE SOFTWARE IS DISTRIBUTED IN THE HOPE THAT IT WILL BE USEFUL, BUT WITHOUT ANY
+        WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES
+        OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT
+        SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+        LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF
+        OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
  */
 
@@ -142,7 +142,7 @@ namespace Motate {
         };
     };
 
-    typedef uint32_t uintPort_t;
+    typedef uint8_t uintPort_t;
 
 #pragma mark PortHardware
     /**************************************************
@@ -157,304 +157,54 @@ namespace Motate {
 
         // The constexpr functions we can define here, and get really great optimization.
         // These switch statements are handled by the compiler, not at runtime.
-#if 0
-        constexpr Pio* const rawPort() const
-        {
-            switch (portLetter) {
-                case 'A': return PIOA;
-#ifdef PIOB
-                case 'B': return PIOB;
-#endif
-#ifdef PIOC
-                case 'C': return PIOC;
-#endif
-#ifdef PIOD
-                case 'D': return PIOD;
-#endif
-            }
-        };
-        constexpr static const uint32_t peripheralId()
-        {
-            switch (portLetter) {
-                case 'A': return ID_PIOA;
-#ifdef PIOB
-                case 'B': return ID_PIOB;
-#endif
-#ifdef PIOC
-                case 'C': return ID_PIOC;
-#endif
-#ifdef PIOD
-                case 'D': return ID_PIOD;
-#endif
-            }
-        };
-        constexpr const IRQn_Type _IRQn() const
-        {
-            switch (portLetter) {
-                case 'A': return PIOA_IRQn;
-#ifdef PIOB
-                case 'B': return PIOB_IRQn;
-#endif
-#ifdef PIOC
-                case 'C': return PIOC_IRQn;
-#endif
-#ifdef PIOD
-                case 'D': return PIOD_IRQn;
-#endif
-            }
-        };
+        typedef uint8_t (*port_rd_t)(void);
+        typedef void (*port_wr_t)(uint8_t val);
 
-#endif
+        constexpr port_rd_t const readPort() const {
+            switch (portLetter) {
+                case 'B': return LED_0_Read;
+                case 'C': return LED_1_Read;
+                case 'M': return STEP_0_5_Read;
+                case 'N': return DIR_0_5_Read;
+            }
+        }
+
+        constexpr port_wr_t const writePort() const {
+            switch (portLetter) {
+                case 'B': return LED_0_Write;
+                case 'C': return LED_1_Write;
+                case 'M': return STEP_0_5_Write;
+                case 'N': return DIR_0_5_Write;
+            }
+        }
+
         static _pinChangeInterrupt *_firstInterrupt;
 
         void setModes(const PinMode type, const uintPort_t mask) {
-#if 0
-            switch (type) {
-                case kOutput:
-                    rawPort()->PIO_OER = mask ;
-                    rawPort()->PIO_PER = mask ;
-                    break;
-                case kInput:
-                    rawPort()->PIO_ODR = mask ;
-                    rawPort()->PIO_PER = mask ;
-                    break;
-#if defined(__SAM3X8E__) || defined(__SAM3X8C__)
-                case kPeripheralA:
-                    rawPort()->PIO_ABSR &= ~mask ;
-                    rawPort()->PIO_PDR = mask ;
-                    break;
-                case kPeripheralB:
-                    rawPort()->PIO_ABSR |= mask ;
-                    rawPort()->PIO_PDR = mask ;
-                    break;
-#else
-                /* From the datasheet (corrected typo based on the register info):
-                 * The corresponding bit at level zero in PIO_ABCDSR1 and
-                   the corresponding bit at level zero in PIO_ABCDSR2 means peripheral A is selected.
+        }
 
-                 * The corresponding bit at level one in PIO_ABCDSR1 and
-                   the corresponding bit at level zero in PIO_ABCDSR2 means peripheral B is selected.
-
-                 * The corresponding bit at level zero in PIO_ABCDSR1 and
-                   the corresponding bit at level one in PIO_ABCDSR2 means peripheral C is selected.
-
-                 * The corresponding bit at level one in PIO_ABCDSR1 and
-                   the corresponding bit at level one in PIO_ABCDSR2 means peripheral D is selected.
-
-
-                 *   Truth Table:
-                 *  Sel | SR2 | SR1
-                 *    A |  0  |  0
-                 *    B |  0  |  1
-                 *    C |  1  |  0
-                 *    D |  1  |  1
-                 */
-                case kPeripheralA:
-                    rawPort()->PIO_ABCDSR[1] &= ~mask ;
-                    rawPort()->PIO_ABCDSR[0] &= ~mask ;
-                    rawPort()->PIO_PDR = mask ;
-                    break;
-                case kPeripheralB:
-                    rawPort()->PIO_ABCDSR[1] &= ~mask ;
-                    rawPort()->PIO_ABCDSR[0] |=  mask ;
-                    rawPort()->PIO_PDR = mask ;
-                    break;
-                case kPeripheralC:
-                    rawPort()->PIO_ABCDSR[1] |=  mask ;
-                    rawPort()->PIO_ABCDSR[0] &= ~mask ;
-                    rawPort()->PIO_PDR = mask ;
-                    break;
-                case kPeripheralD:
-                    rawPort()->PIO_ABCDSR[1] |=  mask ;
-                    rawPort()->PIO_ABCDSR[0] |=  mask ;
-                    rawPort()->PIO_PDR = mask ;
-                    break;
-#endif
-
-                default:
-                    break;
-            }
-            /* if all pins are output, disable PIO Controller clocking, reduce power consumption */
-            if ( rawPort()->PIO_OSR == 0xffffffff )
-            {
-                SamCommon::disablePeripheralClock(peripheralId());
-            } else {
-                SamCommon::enablePeripheralClock(peripheralId());
-            }
-#endif
-        };
-#if 0
-        // Returns the mode of ONE pin, and only Input or Output
-        PinMode getMode(const uintPort_t mask) {
-            return (rawPort()->PIO_OSR & mask) ? kOutput : kInput;
-        };
-#endif
         void setOptions(const PinOptions_t options, const uintPort_t mask) {
-#if 0
-            if (kStartHigh & options)
-            {
-                rawPort()->PIO_SODR = mask ;
-            } else if (kStartLow & options)
-            {
-                rawPort()->PIO_CODR = mask ;
-            }
-            if (kPullUp & options)
-            {
-                rawPort()->PIO_PUER = mask ;
-            }
-            else
-            {
-                rawPort()->PIO_PUDR = mask ;
-            }
-            if (kWiredAnd & options)
-            {/*kDriveLowOnly - Enable Multidrive*/
-                rawPort()->PIO_MDER = mask ;
-            }
-            else
-            {
-                rawPort()->PIO_MDDR = mask ;
-            }
-            if (kDeglitch & options)
-            {
-                rawPort()->PIO_IFER = mask ;
-#if defined(__SAM3X8E__) || defined(__SAM3X8C__)
-                rawPort()->PIO_SCIFSR = mask ;
-#else
-                rawPort()->PIO_IFSCDR = mask ;
-#endif
-            }
-            else
-            {
-                if (kDebounce & options)
-                {
-                    rawPort()->PIO_IFER = mask ;
-#if defined(__SAM3X8E__) || defined(__SAM3X8C__)
-                    rawPort()->PIO_DIFSR = mask ;
-#else
-                    rawPort()->PIO_IFSCER = mask ;
-#endif
-                }
-                else
-                {
-                    rawPort()->PIO_IFDR = mask ;
-                }
-            }
-#endif
-        };
-#if 0
-        PinOptions_t getOptions(const uintPort_t mask) {
-            return ((rawPort()->PIO_PUSR & mask) ? kPullUp : 0) |
-            ((rawPort()->PIO_MDSR & mask) ? kWiredAnd : 0) |
-            ((rawPort()->PIO_IFSR & mask) ?
-             ((rawPort()->PIO_IFDGSR & mask) ? kDebounce : kDeglitch) : 0);
-        };
-#endif
+        }
+
         void set(const uintPort_t mask) {
-#if 0
-            rawPort()->PIO_SODR = mask;
-#endif
-        };
+            writePort()(readPort()() | mask);
+        }
+
         void clear(const uintPort_t mask) {
-#if 0
-            rawPort()->PIO_CODR = mask;
-#endif
-        };
+            writePort()(readPort()() & ~mask);
+        }
+
         void toggle(const uintPort_t mask) {
-#if 0
-//            rawPort()->PIO_OWDR = 0xffffffff;/*Disable all registers for writing thru ODSR*/
-//            rawPort()->PIO_OWER = mask;/*Enable masked registers for writing thru ODSR*/
-//            rawPort()->PIO_ODSR = rawPort()->PIO_ODSR ^ mask;
-            if (rawPort()->PIO_ODSR & mask) {
-                clear(mask);
-            } else {
-                set(mask);
-            }
-#endif
-        };
-#if 0
-        void write(const uintPort_t value) {
-            rawPort()->PIO_OWER = 0xffffffff;/*Enable all registers for writing thru ODSR*/
-            rawPort()->PIO_ODSR = value;
-        };
-        void write(const uintPort_t value, const uintPort_t mask) {
-            rawPort()->PIO_OWER = mask;/*Enable masked registers for writing thru ODSR*/
-            rawPort()->PIO_ODSR = value;
-            rawPort()->PIO_OWDR = mask;/*Disable masked registers for writing thru ODSR*/
-        };
-#endif
+            if (readPort()() & mask) clear(mask);
+            else set(mask);
+        }
+
         uintPort_t getInputValues(const uintPort_t mask) {
-            return 0; //rawPort()->PIO_PDSR & mask;
-        };
-#if 0
-        uintPort_t getOutputValues(const uintPort_t mask) {
-            return rawPort()->PIO_ODSR & mask;
-        };
-        Pio* portPtr() {
-            return rawPort;
-        };
-#endif
+            return 0;
+        }
+
         void setInterrupts(const uint32_t interrupts, const uintPort_t mask) {
-#if 0
-            if (interrupts != kPinInterruptsOff) {
-                rawPort()->PIO_IDR = mask;
-
-                /*Is it an "advanced" interrupt?*/
-                if (interrupts & kPinInterruptAdvancedMask) {
-                    rawPort()->PIO_AIMER = mask;
-                    /*Is it an edge interrupt?*/
-                    if ((interrupts & kPinInterruptTypeMask) == kPinInterruptOnRisingEdge ||
-                        (interrupts & kPinInterruptTypeMask) == kPinInterruptOnFallingEdge) {
-                        rawPort()->PIO_ESR = mask;
-                    }
-                    else
-                        if ((interrupts & kPinInterruptTypeMask) == kPinInterruptOnHighLevel ||
-                            (interrupts & kPinInterruptTypeMask) == kPinInterruptOnLowLevel) {
-                            rawPort()->PIO_LSR = mask;
-                        }
-                    /*Rising Edge/High Level, or Falling Edge/LowLevel?*/
-                    if ((interrupts & kPinInterruptTypeMask) == kPinInterruptOnRisingEdge ||
-                        (interrupts & kPinInterruptTypeMask) == kPinInterruptOnHighLevel) {
-                        rawPort()->PIO_REHLSR = mask;
-                    }
-                    else
-                    {
-                        rawPort()->PIO_FELLSR = mask;
-                    }
-                }
-                else
-                {
-                    rawPort()->PIO_AIMDR = mask;
-                }
-
-                /* Set interrupt priority */
-                if (interrupts & kPinInterruptPriorityMask) {
-                    if (interrupts & kPinInterruptPriorityHighest) {
-                        NVIC_SetPriority(_IRQn(), 0);
-                    }
-                    else if (interrupts & kPinInterruptPriorityHigh) {
-                        NVIC_SetPriority(_IRQn(), 3);
-                    }
-                    else if (interrupts & kPinInterruptPriorityMedium) {
-                        NVIC_SetPriority(_IRQn(), 7);
-                    }
-                    else if (interrupts & kPinInterruptPriorityLow) {
-                        NVIC_SetPriority(_IRQn(), 11);
-                    }
-                    else if (interrupts & kPinInterruptPriorityLowest) {
-                        NVIC_SetPriority(_IRQn(), 15);
-                    }
-                }
-                /* Enable the IRQ */
-                NVIC_EnableIRQ(_IRQn());
-                /* Enable the interrupt */
-                rawPort()->PIO_IER = mask;
-            } else {
-                rawPort()->PIO_IDR = mask;
-                if (rawPort()->PIO_ISR == 0)
-                    NVIC_DisableIRQ(_IRQn());
-            }
-#endif
-        };
+        }
 
         void addInterrupt(_pinChangeInterrupt *newInt) {
             _pinChangeInterrupt *i = _firstInterrupt;

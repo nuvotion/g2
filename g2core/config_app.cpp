@@ -534,6 +534,7 @@ const cfgItem_t cfgArray[] = {
     { "out","out11", _i0, 2, io_print_out, io_get_output, io_set_output, nullptr, 0 },
     { "out","out12", _i0, 2, io_print_out, io_get_output, io_set_output, nullptr, 0 },
 
+#if 0
     // PWM settings
     { "p1","p1frq",_fip, 0, pwm_print_p1frq, get_flt, pwm_set_pwm,(float *)&pwm.c[PWM_1].frequency,    P1_PWM_FREQUENCY },
     { "p1","p1csl",_fip, 0, pwm_print_p1csl, get_flt, pwm_set_pwm,(float *)&pwm.c[PWM_1].cw_speed_lo,  P1_CW_SPEED_LO },
@@ -547,7 +548,6 @@ const cfgItem_t cfgArray[] = {
     { "p1","p1pof",_fip, 3, pwm_print_p1pof, get_flt, pwm_set_pwm,(float *)&pwm.c[PWM_1].phase_off,    P1_PWM_PHASE_OFF },
 
 
-#if 0
     // temperature configs - pid active values (read-only)
     // NOTICE: If you change these PID group keys, you MUST change the get/set functions too!
     { "pid1","pid1p",_fip, 3, tx_print_nul, cm_get_pid_p, set_ro, nullptr, 0 },

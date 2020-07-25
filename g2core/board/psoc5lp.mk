@@ -19,7 +19,7 @@ ifeq ("$(BOARD)","psoc5lp")
     BOARD_PATH = board/psoc5lp
     SOURCE_DIRS += ${BOARD_PATH} device/step_dir_driver
 
-    DEVICE_DEFINES += MOTATE_BOARD="gShield"
+    DEVICE_DEFINES += MOTATE_BOARD="nuvotion"
 
 
     DEVICE_LINKER_SCRIPT_PATH = $(BOARD_PATH)

@@ -1,4 +1,4 @@
-
+#include "hardware.h"
 #include "cypress.h"
 #include "board_xio.h"
 
@@ -12,14 +12,14 @@ namespace PSOC {
                 Serial.reset();
                 Serial.connection_state_changed_callback(true);
                 usb_up = 1;
-                LED_1_Write(1);
+                USBStatusLed.set();
             }
         } else {
             if (usb_up) {
                 Serial.reset();
                 Serial.connection_state_changed_callback(false);
                 usb_up = 0;
-                LED_1_Write(0);
+                USBStatusLed.clear();
             }
         }
     }, nullptr};

@@ -421,7 +421,6 @@ bool controller_parse_control(char *p) {
 
 static stat_t _led_indicator()
 {
-    static int toggle;
     uint32_t blink_rate;
     if (cm_get_machine_state() == MACHINE_ALARM) {
         blink_rate = LED_ALARM_BLINK_RATE;
@@ -440,8 +439,6 @@ static stat_t _led_indicator()
     if (SysTickTimer_getValue() > cs.led_timer) {
         cs.led_timer = SysTickTimer_getValue() + cs.led_blink_rate;
         IndicatorLed.toggle();
-        LED_0_Write(toggle);
-        toggle = !toggle;
     }
     return (STAT_OK);
 }

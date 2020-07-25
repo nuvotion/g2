@@ -115,35 +115,15 @@ typedef TimerChannel<4,0> exec_timer_type;      // request exec timer in stepper
 typedef TimerChannel<5,0> fwd_plan_timer_type;  // request exec timer in stepper.cpp
 
 // Pin assignments
-
-pin_number indicator_led_pin_num = Motate::kLED_USBRXPinNumber;
-static OutputPin<indicator_led_pin_num> IndicatorLed;
-
-// Init these to input to keep them high-z
-static Pin<Motate::kSPI0_MISOPinNumber> spi_miso_pin(Motate::kInput);
-static Pin<Motate::kSPI0_MOSIPinNumber> spi_mosi_pin(Motate::kInput);
-static Pin<Motate::kSPI0_SCKPinNumber>  spi_sck_pin(Motate::kInput);
+static OutputPin<Motate::kLED_PinNumber> IndicatorLed;
+static OutputPin<Motate::kUSB_PinNumber> USBStatusLed;
 
 /**** Motate Global Pin Allocations ****/
 
-//static OutputPin<kSocket1_SPISlaveSelectPinNumber> spi_ss1_pin;
-//static OutputPin<kSocket2_SPISlaveSelectPinNumber> spi_ss2_pin;
-//static OutputPin<kSocket3_SPISlaveSelectPinNumber> spi_ss3_pin;
-//static OutputPin<kSocket4_SPISlaveSelectPinNumber> spi_ss4_pin;
-//static OutputPin<kSocket5_SPISlaveSelectPinNumber> spi_ss5_pin;
-//static OutputPin<kSocket6_SPISlaveSelectPinNumber> spi_ss6_pin;
-static OutputPin<Motate::kKinen_SyncPinNumber> kinen_sync_pin;
-
-static OutputPin<Motate::kGRBL_ResetPinNumber> grbl_reset_pin;
-static OutputPin<Motate::kGRBL_FeedHoldPinNumber> grbl_feedhold_pin;
-static OutputPin<Motate::kGRBL_CycleStartPinNumber> grbl_cycle_start_pin;
-
-static OutputPin<Motate::kGRBL_CommonEnablePinNumber> motor_common_enable_pin;
 static OutputPin<Motate::kSpindle_EnablePinNumber> spindle_enable_pin;
 static OutputPin<Motate::kSpindle_DirPinNumber> spindle_dir_pin;
 
 // NOTE: In the v9 and the Due the flood and mist coolants are mapped to a the same pin
-//static OutputPin<kCoolant_EnablePinNumber> coolant_enable_pin;
 static OutputPin<Motate::kCoolant_EnablePinNumber> flood_enable_pin;
 static OutputPin<Motate::kCoolant_EnablePinNumber> mist_enable_pin;
 

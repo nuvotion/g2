@@ -173,6 +173,9 @@ namespace Motate {
      * TIMERS: Timer<n>
      *
      **************************************************/
+    void DDA_Handler();
+    void EXEC_Handler();
+    void FWD_PLAN_Handler();
 
     template <uint8_t timerNum>
     struct Timer {
@@ -180,16 +183,35 @@ namespace Motate {
 
         Timer(const TimerMode mode, const uint32_t freq) {
             init();
-            setModeAndFrequency(mode, freq);
         }
 
         void init() {
+            switch (timerNum) {
+                case 3:
+                    DDA_TIMER_Start();
+                    DDA_IRQ_StartEx(DDA_Handler);
+                    break;
+                    
+                case 4:
+                    EXEC_IRQ_StartEx(EXEC_Handler);
+                    break;
+
+                case 5:
+                    FWD_PLAN_IRQ_StartEx(FWD_PLAN_Handler);
+                    break;
+            }
         }
 
-        int32_t setModeAndFrequency(const TimerMode mode, uint32_t freq) {
-            return 0;
-        }
         void setInterruptPending() {
+            switch (timerNum) {
+                case 4:
+                    EXEC_IRQ_SetPending();
+                    break;
+
+                case 5:
+                    FWD_PLAN_IRQ_SetPending();
+                    break;
+            }
         }
 
         void start() {
@@ -201,7 +223,7 @@ namespace Motate {
         void setInterrupts(const uint32_t interrupts, const int16_t channel = -1) {
         }
 
-        static TimerChannelInterruptOptions getInterruptCause(int16_t &channel) {
+        static TimerChannelInterruptOptions getInterruptCause() {
             return kInterruptsOff;
         }
     };
@@ -210,49 +232,6 @@ namespace Motate {
     struct TimerChannel : Timer<timerNum> {
         TimerChannel() : Timer<timerNum>{} {}
         TimerChannel(const TimerMode mode, const uint32_t freq) : Timer<timerNum>{mode, freq} {}
-
-        void setDutyCycle(const float ratio) {
-            Timer<timerNum>::setDutyCycleForChannel(channelNum, ratio);
-        }
-
-        float getDutyCycle() {
-            return Timer<timerNum>::getDutyCycleForChannel(channelNum);
-        }
-
-        void setExactDutyCycle(const uint32_t absolute) {
-            Timer<timerNum>::setExactDutyCycleForChannel(channelNum, absolute);
-        }
-
-        uint32_t getExactDutyCycle() {
-            return Timer<timerNum>::getExactDutyCycleForChannel(channelNum);
-        }
-
-
-        void setOutputOptions(const uint32_t options) {
-            Timer<timerNum>::setOutputOptions(channelNum, options);
-        }
-
-        void startPWMOutput() {
-            Timer<timerNum>::startPWMOutput(channelNum);
-        }
-
-        void stopPWMOutput() {
-            Timer<timerNum>::stopPWMOutput(channelNum);
-        }
-
-        void setInterrupts(const uint32_t interrupts) {
-            Timer<timerNum>::setInterrupts(interrupts, channelNum);
-        }
-
-        TimerChannelInterruptOptions getInterruptCause(int16_t &channel) {
-            channel = 1;
-            return Timer<timerNum>::getInterruptCause(channel);
-        }
-
-        TimerChannelInterruptOptions getInterruptCause() {
-            int16_t channel = 1;
-            return Timer<timerNum>::getInterruptCause(channel);
-        }
 
         // Placeholder for user code.
         static void interrupt();
@@ -287,8 +266,8 @@ namespace Motate {
 
         void init() {
             _motateTickCount = 0;
-            CySysTickStart();
-            CySysTickSetCallback(0, SysTick_Handler);
+            SYSTICK_TIMER_Start();
+            SYSTICK_IRQ_StartEx(SysTick_Handler);
         };
 
         // Return the current value of the counter. This is a fleeting thing...

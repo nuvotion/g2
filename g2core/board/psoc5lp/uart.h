@@ -10,14 +10,9 @@
 
 namespace PSOC {
 
-    void usb_poll();
+    extern Motate::SysTickEvent usb_systick_event;
 
     struct UART {
-
-        UART() {
-            CySysTickStart();
-            CySysTickSetCallback(1, usb_poll);
-        }
 
         std::function<void(bool)> connection_state_changed_callback;
 

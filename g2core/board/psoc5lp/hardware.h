@@ -92,27 +92,27 @@ using Motate::OutputPin;
  *
  * The following interrupts are defined w/indicated priorities
  *
- *	 0	DDA_TIMER (3) for step pulse generation
- *	 1	DWELL_TIMER (4) for dwell timing
- *	 2	LOADER software generated interrupt (STIR / SGI)
- *	 3	Serial read character interrupt
- *	 4	EXEC software generated interrupt (STIR / SGI)
- *	 5	Serial write character interrupt
+ *       0      DDA_TIMER (3) for step pulse generation
+ *       1      DWELL_TIMER (4) for dwell timing
+ *       2      LOADER software generated interrupt (STIR / SGI)
+ *       3      Serial read character interrupt
+ *       4      EXEC software generated interrupt (STIR / SGI)
+ *       5      Serial write character interrupt
  */
 
 /**** Stepper DDA and dwell timer settings ****/
 
-//#define FREQUENCY_DDA		200000UL		// Hz step frequency. Interrupts actually fire at 2x (400 KHz)
-#define FREQUENCY_DDA		150000UL		// Hz step frequency. Interrupts actually fire at 2x (300 KHz)
-#define FREQUENCY_DWELL		1000UL
-#define FREQUENCY_SGI		200000UL		// 200,000 Hz means software interrupts will fire 5 uSec after being called
+#define FREQUENCY_DDA         200000UL                // Hz step frequency. Interrupts actually fire at 2x (400 KHz)
+//#define FREQUENCY_DDA           150000UL                // Hz step frequency. Interrupts actually fire at 2x (300 KHz)
+#define FREQUENCY_DWELL         1000UL
+#define FREQUENCY_SGI           200000UL                // 200,000 Hz means software interrupts will fire 5 uSec after being called
 
 /**** Motate Definitions ****/
 
 // Timer definitions. See stepper.h and other headers for setup
-typedef TimerChannel<3,0> dda_timer_type;	// stepper pulse generation in stepper.cpp
-typedef TimerChannel<4,0> exec_timer_type;	// request exec timer in stepper.cpp
-typedef TimerChannel<5,0> fwd_plan_timer_type;	// request exec timer in stepper.cpp
+typedef TimerChannel<3,0> dda_timer_type;       // stepper pulse generation in stepper.cpp
+typedef TimerChannel<4,0> exec_timer_type;      // request exec timer in stepper.cpp
+typedef TimerChannel<5,0> fwd_plan_timer_type;  // request exec timer in stepper.cpp
 
 // Pin assignments
 
@@ -154,7 +154,7 @@ static OutputPin<Motate::kCoolant_EnablePinNumber> mist_enable_pin;
  ********************************/
 #include "cypress.h"
 
-void hardware_init(void);			// master hardware init
+void hardware_init(void);                       // master hardware init
 stat_t hardware_periodic();  // callback from the main loop (time sensitive)
 void hw_hard_reset(void);
 stat_t hw_flash(nvObj_t *nv);
@@ -189,4 +189,4 @@ stat_t hw_get_id(nvObj_t *nv);
 
 #endif // __TEXT_MODE
 
-#endif	// end of include guard: HARDWARE_H_ONCE
+#endif  // end of include guard: HARDWARE_H_ONCE

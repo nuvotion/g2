@@ -38,6 +38,7 @@
 #include "plan_arc.h"
 #include "stepper.h"
 #include "gpio.h"
+#include "sdlc.h"
 #include "spindle.h"
 #include "temperature.h"
 #include "coolant.h"
@@ -533,6 +534,23 @@ const cfgItem_t cfgArray[] = {
     { "out","out10", _i0, 2, io_print_out, io_get_output, io_set_output, nullptr, 0 },
     { "out","out11", _i0, 2, io_print_out, io_get_output, io_set_output, nullptr, 0 },
     { "out","out12", _i0, 2, io_print_out, io_get_output, io_set_output, nullptr, 0 },
+
+    { "", "sdls", _i0, 2, tx_print_nul, sd_get_sdlc, sd_set_sdlc, nullptr, 0 },
+    { "", "sdlc", _i0, 2, tx_print_nul, sd_get_sdlc, sd_set_sdlc, nullptr, 0 },
+    { "", "sdlr", _i0, 2, tx_print_nul, sd_get_sdlc, sd_set_sdlc, nullptr, 0 },
+    { "", "sdli", _i0, 2, tx_print_nul, sd_get_sdlc, set_ro, nullptr, 0 },
+    { "", "sdrs", _i0, 2, tx_print_nul, sd_get_sdlc, sd_set_sdlc, nullptr, 0 },
+    { "", "sdrc", _i0, 2, tx_print_nul, sd_get_sdlc, sd_set_sdlc, nullptr, 0 },
+    { "", "sdrr", _i0, 2, tx_print_nul, sd_get_sdlc, sd_set_sdlc, nullptr, 0 },
+    { "", "sdri", _i0, 2, tx_print_nul, sd_get_sdlc, set_ro, nullptr, 0 },
+    { "", "sdhs", _i0, 2, tx_print_nul, sd_get_sdlc, sd_set_sdlc, nullptr, 0 },
+    { "", "sdhc", _i0, 2, tx_print_nul, sd_get_sdlc, sd_set_sdlc, nullptr, 0 },
+    { "", "sdhr", _i0, 2, tx_print_nul, sd_get_sdlc, sd_set_sdlc, nullptr, 0 },
+    { "", "sdhi", _i0, 2, tx_print_nul, sd_get_sdlc, set_ro, nullptr, 0 },
+    { "", "sdcs", _i0, 2, tx_print_nul, sd_get_sdlc, sd_set_sdlc, nullptr, 0 },
+    { "", "sdcc", _i0, 2, tx_print_nul, sd_get_sdlc, sd_set_sdlc, nullptr, 0 },
+    { "", "sdcr", _i0, 2, tx_print_nul, sd_get_sdlc, sd_set_sdlc, nullptr, 0 },
+    { "", "sdci", _i0, 2, tx_print_nul, sd_get_sdlc, set_ro, nullptr, 0 },
 
 #if 0
     // PWM settings
@@ -1340,6 +1358,7 @@ const cfgItem_t cfgArray[] = {
     { "","g28",_f0, 0, tx_print_nul, get_grp, set_grp, nullptr, 0 },    // g28 home position
     { "","g30",_f0, 0, tx_print_nul, get_grp, set_grp, nullptr, 0 },    // g30 home position
         
+#if 0
 #define TOOL_OFFSET_GROUPS 33
     { "","tof",_f0, 0, tx_print_nul, get_grp, set_grp, nullptr, 0 },    // current tool offsets
     { "","tt1",_f0, 0, tx_print_nul, get_grp, set_grp, nullptr, 0 },    // tt offsets
@@ -1374,6 +1393,9 @@ const cfgItem_t cfgArray[] = {
     { "","tt30",_f0, 0, tx_print_nul, get_grp, set_grp, nullptr, 0 },   // tt offsets
     { "","tt31",_f0, 0, tx_print_nul, get_grp, set_grp, nullptr, 0 },   // tt offsets
     { "","tt32",_f0, 0, tx_print_nul, get_grp, set_grp, nullptr, 0 },   // tt offsets
+#else
+#define TOOL_OFFSET_GROUPS 0
+#endif
         
 #define MACHINE_STATE_GROUPS 8
     { "","mpo",_f0, 0, tx_print_nul, get_grp, set_grp, nullptr, 0 },    // machine position group
@@ -1399,6 +1421,8 @@ const cfgItem_t cfgArray[] = {
     { "","udb", _f0, 0, tx_print_nul, get_grp, set_grp, nullptr, 0 },   // user data group
     { "","udc", _f0, 0, tx_print_nul, get_grp, set_grp, nullptr, 0 },   // user data group
     { "","udd", _f0, 0, tx_print_nul, get_grp, set_grp, nullptr, 0 },   // user data group
+#else
+#define USER_DATA_GROUPS 0
 #endif
 
 #ifdef __DIAGNOSTIC_PARAMETERS

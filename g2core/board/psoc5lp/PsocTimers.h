@@ -193,10 +193,12 @@ namespace Motate {
                     break;
                     
                 case 4:
+                    EXEC_IRQ_ClearPending();
                     EXEC_IRQ_StartEx(EXEC_Handler);
                     break;
 
                 case 5:
+                    FWD_PLAN_IRQ_ClearPending();
                     FWD_PLAN_IRQ_StartEx(FWD_PLAN_Handler);
                     break;
             }

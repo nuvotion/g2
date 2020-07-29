@@ -2491,7 +2491,7 @@ static const char fmt_pos[] = "%c position:%15.3f%s\n";
 static const char fmt_mpo[] = "%c machine posn:%11.3f%s\n";
 static const char fmt_ofs[] = "%c work offset:%12.3f%s\n";
 static const char fmt_tof[] = "%c tool length offset:%12.3f%s\n";
-static const char fmt_hom[] = "%c axis homing state:%2.0f\n";
+static const char fmt_hom[] = "%c axis homing state:%2d\n";
 
 static void _print_axis_ui8(nvObj_t *nv, const char *format)
 {
@@ -2525,7 +2525,7 @@ static void _print_axis_coord_flt(nvObj_t *nv, const char *format)
 
 static void _print_pos(nvObj_t *nv, const char *format, uint8_t units)
 {
-    char axes[] = {"XYZABC"};
+    char axes[] = {"XYZUVWABC"};
     uint8_t axis = _axis(nv);
     if (axis >= AXIS_A) { units = DEGREES;}
     sprintf(cs.out_buf, format, axes[axis], nv->value_flt, GET_TEXT_ITEM(msg_units, units));
@@ -2534,7 +2534,7 @@ static void _print_pos(nvObj_t *nv, const char *format, uint8_t units)
 
 static void _print_hom(nvObj_t *nv, const char *format)
 {
-    char axes[] = {"XYZABC"};
+    char axes[] = {"XYZUVWABC"};
     uint8_t axis = _axis(nv);
     sprintf(cs.out_buf, format, axes[axis], nv->value_int);
     xio_writeline(cs.out_buf);

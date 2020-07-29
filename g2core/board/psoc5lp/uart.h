@@ -15,7 +15,9 @@ namespace PSOC {
     struct UART {
 
         std::function<void(bool)> connection_state_changed_callback;
+        std::function<void(void)> transfer_tx_done_callback;
 
+        int usb_up = 0;
         uint16_t rx_bytes_received = 0;
         uint8_t rx_bytes[64];
         char *last_write = nullptr;
@@ -35,6 +37,8 @@ namespace PSOC {
             uint16_t remaining = length;
             uint16_t offset = 0;
 
+            if (!usb_up) return false;
+
             while (remaining) {
                 while (!USBFS_CDCIsReady()) {};
                 num_bytes = min((uint16_t) 64, remaining);
@@ -45,10 +49,12 @@ namespace PSOC {
             }
 
             last_read = buffer + length;
-            return false;
+            transfer_tx_done_callback();
+            return true;
         }
 
         void setTXTransferDoneCallback(std::function<void()> &&callback) {
+            transfer_tx_done_callback = std::move(callback);
         }
 
         char* getTXTransferPosition() {

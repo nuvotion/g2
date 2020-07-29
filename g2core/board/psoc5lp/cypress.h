@@ -4,6 +4,8 @@
 #include <stdint.h>
 
 extern "C" {
+    void CyGetUniqueId(uint32_t *uniqueId);
+
     uint8_t LED_0_Read(void);
     void LED_0_Write(uint8_t value);
     uint8_t LED_1_Read(void);
@@ -21,8 +23,10 @@ extern "C" {
     void DDA_IRQ_StartEx(cyisraddress address);
     void EXEC_IRQ_StartEx(cyisraddress address);
     void EXEC_IRQ_SetPending(void);
+    void EXEC_IRQ_ClearPending(void);
     void FWD_PLAN_IRQ_StartEx(cyisraddress address);
     void FWD_PLAN_IRQ_SetPending(void);
+    void FWD_PLAN_IRQ_ClearPending(void);
 
     void USBFS_Start(uint8_t device, uint8_t mode);
     uint8_t USBFS_GetConfiguration(void);
@@ -31,6 +35,10 @@ extern "C" {
     uint16_t USBFS_GetAll(uint8_t *pData);
     uint8_t USBFS_CDCIsReady(void);
     void USBFS_PutData(const uint8_t *pData, uint16_t length);
+
+    void SDLC_Setup(void);
+    void SDLC_SendReceive(uint8_t tx_len, uint8_t rx_len, uint8_t *tx_data, uint8_t *rx_data);
+    uint16_t SDLC_GetRxBytes(void);
 
     __attribute__((always_inline)) static inline void __DMB(void) {
         __asm volatile ("dmb 0xF":::"memory");

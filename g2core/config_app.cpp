@@ -539,18 +539,22 @@ const cfgItem_t cfgArray[] = {
     { "", "sdlc", _i0, 2, tx_print_nul, sd_get_sdlc, sd_set_sdlc, nullptr, 0 },
     { "", "sdlr", _i0, 2, tx_print_nul, sd_get_sdlc, sd_set_sdlc, nullptr, 0 },
     { "", "sdli", _i0, 2, tx_print_nul, sd_get_sdlc, set_ro, nullptr, 0 },
+    { "", "sdle", _i0, 2, tx_print_nul, sd_get_sdlc, set_ro, nullptr, 0 },
     { "", "sdrs", _i0, 2, tx_print_nul, sd_get_sdlc, sd_set_sdlc, nullptr, 0 },
     { "", "sdrc", _i0, 2, tx_print_nul, sd_get_sdlc, sd_set_sdlc, nullptr, 0 },
     { "", "sdrr", _i0, 2, tx_print_nul, sd_get_sdlc, sd_set_sdlc, nullptr, 0 },
     { "", "sdri", _i0, 2, tx_print_nul, sd_get_sdlc, set_ro, nullptr, 0 },
+    { "", "sdre", _i0, 2, tx_print_nul, sd_get_sdlc, set_ro, nullptr, 0 },
     { "", "sdhs", _i0, 2, tx_print_nul, sd_get_sdlc, sd_set_sdlc, nullptr, 0 },
     { "", "sdhc", _i0, 2, tx_print_nul, sd_get_sdlc, sd_set_sdlc, nullptr, 0 },
     { "", "sdhr", _i0, 2, tx_print_nul, sd_get_sdlc, sd_set_sdlc, nullptr, 0 },
     { "", "sdhi", _i0, 2, tx_print_nul, sd_get_sdlc, set_ro, nullptr, 0 },
+    { "", "sdhe", _i0, 2, tx_print_nul, sd_get_sdlc, set_ro, nullptr, 0 },
     { "", "sdcs", _i0, 2, tx_print_nul, sd_get_sdlc, sd_set_sdlc, nullptr, 0 },
     { "", "sdcc", _i0, 2, tx_print_nul, sd_get_sdlc, sd_set_sdlc, nullptr, 0 },
     { "", "sdcr", _i0, 2, tx_print_nul, sd_get_sdlc, sd_set_sdlc, nullptr, 0 },
     { "", "sdci", _i0, 2, tx_print_nul, sd_get_sdlc, set_ro, nullptr, 0 },
+    { "", "sdce", _i0, 2, tx_print_nul, sd_get_sdlc, set_ro, nullptr, 0 },
 
 #if 0
     // PWM settings

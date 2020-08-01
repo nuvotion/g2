@@ -16,8 +16,9 @@ struct sdlcIOBoard_inst : sdlcIOBoard {
     std::bitset<num_inputs> inputs;
     std::bitset<num_outputs> outputs;
     std::bitset<num_muxd_outputs> muxd_outputs;
-    uint8_t mux_sel = 0;
     uint64_t input_data = 0;
+    uint8_t mux_sel = 0;
+    uint8_t pkt_count = 0;
 
     sdlcIOBoard_inst() {
         memset(pkt, 0, 10);
@@ -60,19 +61,25 @@ struct sdlcIOBoard_inst : sdlcIOBoard {
 
     stat_t get(nvObj_t *nv) {
         const char *ptr = cfgArray[nv->index].token; 
-        if (ptr[3] == 'i') {
-            get_string(nv, inputs.to_string().c_str());
-        } else {
-            std::string s = muxd_outputs.to_string() + outputs.to_string();
-            get_string(nv, s.c_str());
+        switch (ptr[3]) {
+            case 'e':
+                return get_integer(nv, pkt_count);
+
+            case 'i':
+                return get_string(nv, inputs.to_string().c_str());
+
+            default:
+                std::string s = muxd_outputs.to_string() + outputs.to_string();
+                return get_string(nv, s.c_str());
         }
-        return STAT_OK;
     }
 
     uint8_t *get_packet() {
         uint32_t val;
         switch (addr) {
             case 0x10:
+                mux_sel = !mux_sel;
+                pkt[1] = mux_sel ? 0x87 : 0x00;
                 pkt[7] = (outputs.to_ulong() >> 0) & 0xff;
                 pkt[8] = (outputs.to_ulong() >> 6) & 0xff;
                 pkt[9] = (outputs.to_ulong() >> 8) & 0xff;
@@ -96,6 +103,7 @@ struct sdlcIOBoard_inst : sdlcIOBoard {
                 memcpy(&pkt[3], &val, 4); 
                 break;
         }
+        pkt_count++;
         return pkt;
     }
 
@@ -109,7 +117,7 @@ struct sdlcIOBoard_inst : sdlcIOBoard {
     }
 
     void update_inputs() {
-        int i;
+        uint8_t i;
         for (i = 0; i < num_inputs; i++) {
             (input_data >> i) & 1 ? inputs.set(i) : inputs.reset(i);
         }
@@ -121,19 +129,24 @@ struct sdlcIOBoard_inst : sdlcIOBoard {
         switch (addr) {
             case 0x10:
                 if (len != 22) return; 
-                memcpy(&val, &data[17], 3);
+                if (mux_sel) memcpy(adcs, &data[3], 2);
+                else memcpy(&val, &data[17], 3);
+                pkt_count--;
                 break;
             case 0x13:
                 if (len != 10) return; 
                 memcpy(&val, &data[3], 6);
+                pkt_count--;
                 break;
             case 0x14:
                 if (len != 10) return; 
                 memcpy(&val, &data[3], 6);
+                pkt_count--;
                 break;
             case 0x15:
                 if (len != 8) return; 
                 memcpy(&val, &data[3], 4);
+                pkt_count--;
                 break;
         }
         if (val != input_data) {
@@ -171,7 +184,7 @@ namespace PSOC {
     Motate::SysTickEvent sdlc_poll {[&] {
 
         static uint8_t rx_data[20] __attribute__((aligned(4)));
-        static int board_sel;
+        static uint8_t board_sel;
         static sdlcIOBoard *board;
 
         if (board) {

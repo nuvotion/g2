@@ -68,6 +68,11 @@ struct sdlcIOBoard_inst : sdlcIOBoard {
             case 'i':
                 return get_string(nv, inputs.to_string().c_str());
 
+            case 'a':
+                return get_integer(nv, num_adcs ? adcs[0] : 0);
+            case 'b':
+                return get_integer(nv, num_adcs ? adcs[1] : 0);
+
             default:
                 std::string s = muxd_outputs.to_string() + outputs.to_string();
                 return get_string(nv, s.c_str());

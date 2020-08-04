@@ -535,25 +535,27 @@ const cfgItem_t cfgArray[] = {
     { "out","out11", _i0, 2, io_print_out, io_get_output, io_set_output, nullptr, 0 },
     { "out","out12", _i0, 2, io_print_out, io_get_output, io_set_output, nullptr, 0 },
 
-    { "", "sdls", _i0, 2, tx_print_nul, sd_get_sdlc, sd_set_sdlc, nullptr, 0 },
+    { "yv", "sdls", _i0, 2, tx_print_nul, sd_get_sdlc, sd_set_sdlc, nullptr, 0 },
     { "", "sdlc", _i0, 2, tx_print_nul, sd_get_sdlc, sd_set_sdlc, nullptr, 0 },
     { "", "sdlr", _i0, 2, tx_print_nul, sd_get_sdlc, sd_set_sdlc, nullptr, 0 },
-    { "", "sdli", _i0, 2, tx_print_nul, sd_get_sdlc, set_ro, nullptr, 0 },
+    { "yv", "sdli", _i0, 2, tx_print_nul, sd_get_sdlc, set_ro, nullptr, 0 },
     { "", "sdle", _i0, 2, tx_print_nul, sd_get_sdlc, set_ro, nullptr, 0 },
-    { "", "sdrs", _i0, 2, tx_print_nul, sd_get_sdlc, sd_set_sdlc, nullptr, 0 },
+    { "yv", "sdrs", _i0, 2, tx_print_nul, sd_get_sdlc, sd_set_sdlc, nullptr, 0 },
     { "", "sdrc", _i0, 2, tx_print_nul, sd_get_sdlc, sd_set_sdlc, nullptr, 0 },
     { "", "sdrr", _i0, 2, tx_print_nul, sd_get_sdlc, sd_set_sdlc, nullptr, 0 },
-    { "", "sdri", _i0, 2, tx_print_nul, sd_get_sdlc, set_ro, nullptr, 0 },
+    { "yv", "sdri", _i0, 2, tx_print_nul, sd_get_sdlc, set_ro, nullptr, 0 },
     { "", "sdre", _i0, 2, tx_print_nul, sd_get_sdlc, set_ro, nullptr, 0 },
-    { "", "sdhs", _i0, 2, tx_print_nul, sd_get_sdlc, sd_set_sdlc, nullptr, 0 },
+    { "yv", "sdhs", _i0, 2, tx_print_nul, sd_get_sdlc, sd_set_sdlc, nullptr, 0 },
     { "", "sdhc", _i0, 2, tx_print_nul, sd_get_sdlc, sd_set_sdlc, nullptr, 0 },
     { "", "sdhr", _i0, 2, tx_print_nul, sd_get_sdlc, sd_set_sdlc, nullptr, 0 },
-    { "", "sdhi", _i0, 2, tx_print_nul, sd_get_sdlc, set_ro, nullptr, 0 },
+    { "yv", "sdhi", _i0, 2, tx_print_nul, sd_get_sdlc, set_ro, nullptr, 0 },
+    { "yv", "sdha", _i0, 2, tx_print_nul, sd_get_sdlc, set_ro, nullptr, 0 },
+    { "yv", "sdhb", _i0, 2, tx_print_nul, sd_get_sdlc, set_ro, nullptr, 0 },
     { "", "sdhe", _i0, 2, tx_print_nul, sd_get_sdlc, set_ro, nullptr, 0 },
-    { "", "sdcs", _i0, 2, tx_print_nul, sd_get_sdlc, sd_set_sdlc, nullptr, 0 },
+    { "yv", "sdcs", _i0, 2, tx_print_nul, sd_get_sdlc, sd_set_sdlc, nullptr, 0 },
     { "", "sdcc", _i0, 2, tx_print_nul, sd_get_sdlc, sd_set_sdlc, nullptr, 0 },
     { "", "sdcr", _i0, 2, tx_print_nul, sd_get_sdlc, sd_set_sdlc, nullptr, 0 },
-    { "", "sdci", _i0, 2, tx_print_nul, sd_get_sdlc, set_ro, nullptr, 0 },
+    { "yv", "sdci", _i0, 2, tx_print_nul, sd_get_sdlc, set_ro, nullptr, 0 },
     { "", "sdce", _i0, 2, tx_print_nul, sd_get_sdlc, set_ro, nullptr, 0 },
 
 #if 0
@@ -1351,6 +1353,9 @@ const cfgItem_t cfgArray[] = {
     { "","do12", _f0, 0, tx_print_nul, get_grp, set_grp, nullptr, 0 },
     { "","do13", _f0, 0, tx_print_nul, get_grp, set_grp, nullptr, 0 },
 
+#define SDLC_GROUPS 1
+    { "","yv", _f0, 0, tx_print_nul, get_grp, set_grp, nullptr, 0 },   // output state
+
 #define COORDINATE_OFFSET_GROUPS 9
     { "","g54",_f0, 0, tx_print_nul, get_grp, set_grp, nullptr, 0 },    // coord offset groups
     { "","g55",_f0, 0, tx_print_nul, get_grp, set_grp, nullptr, 0 },
@@ -1459,6 +1464,7 @@ const cfgItem_t cfgArray[] = {
                         + MOTOR_GROUPS \
                         + DIGITAL_IN_GROUPS \
                         + DIGITAL_OUT_GROUPS \
+                        + SDLC_GROUPS \
                         + COORDINATE_OFFSET_GROUPS \
                         + TOOL_OFFSET_GROUPS \
                         + MACHINE_STATE_GROUPS \

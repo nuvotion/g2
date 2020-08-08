@@ -36,6 +36,11 @@
 #include <functional>   // for std::function
 #include <type_traits>
 
+namespace PSOC {
+    extern void SDLC_C_Handler(uint32_t mask);
+    extern bool SDLC_C_Read(uint32_t mask);
+}
+
 namespace Motate {
     // Numbering is arbitrary:
     enum PinMode : PinMode_t {
@@ -142,7 +147,7 @@ namespace Motate {
         };
     };
 
-    typedef uint8_t uintPort_t;
+    typedef uint32_t uintPort_t;
 
 #pragma mark PortHardware
     /**************************************************
@@ -162,8 +167,8 @@ namespace Motate {
 
         constexpr port_rd_t const readPort() const {
             switch (portLetter) {
-                case 'B': return LED_0_Read;
-                case 'C': return LED_1_Read;
+                case 'A': return LED_0_Read;
+                case 'B': return LED_1_Read;
                 case 'M': return STEP_0_5_Read;
                 case 'N': return DIR_0_5_Read;
             }
@@ -171,8 +176,8 @@ namespace Motate {
 
         constexpr port_wr_t const writePort() const {
             switch (portLetter) {
-                case 'B': return LED_0_Write;
-                case 'C': return LED_1_Write;
+                case 'A': return LED_0_Write;
+                case 'B': return LED_1_Write;
                 case 'M': return STEP_0_5_Write;
                 case 'N': return DIR_0_5_Write;
             }
@@ -200,6 +205,9 @@ namespace Motate {
         }
 
         uintPort_t getInputValues(const uintPort_t mask) {
+            switch (portLetter) {
+                case 'C': return PSOC::SDLC_C_Read(mask);
+            }
             return 0;
         }
 

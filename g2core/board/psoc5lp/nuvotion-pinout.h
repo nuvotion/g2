@@ -98,51 +98,50 @@ pin_number kSocket2_Microstep_1PinNumber    = -1;
 pin_number kSocket2_Microstep_2PinNumber    = -1;
 pin_number kSocket2_VrefPinNumber           = -1;
 
-pin_number kSocket3_StepPinNumber           = -1;
-pin_number kSocket3_DirPinNumber            = -1;
+pin_number kSocket3_StepPinNumber           = 6;
+pin_number kSocket3_DirPinNumber            = 7;
 pin_number kSocket3_EnablePinNumber         = -1;
 pin_number kSocket3_Microstep_0PinNumber    = -1;
 pin_number kSocket3_Microstep_1PinNumber    = -1;
 pin_number kSocket3_Microstep_2PinNumber    = -1;
 pin_number kSocket3_VrefPinNumber           = -1;
 
-pin_number kSocket4_StepPinNumber           = -1;
-pin_number kSocket4_DirPinNumber            = -1;
+pin_number kSocket4_StepPinNumber           = 8;
+pin_number kSocket4_DirPinNumber            = 9;
 pin_number kSocket4_EnablePinNumber         = -1;
 pin_number kSocket4_Microstep_0PinNumber    = -1;
 pin_number kSocket4_Microstep_1PinNumber    = -1;
 pin_number kSocket4_Microstep_2PinNumber    = -1;
 pin_number kSocket4_VrefPinNumber           = -1;
 
-pin_number kSocket5_StepPinNumber           = -1;
-pin_number kSocket5_DirPinNumber            = -1;
+pin_number kSocket5_StepPinNumber           = 10;
+pin_number kSocket5_DirPinNumber            = 11;
 pin_number kSocket5_EnablePinNumber         = -1;
 pin_number kSocket5_Microstep_0PinNumber    = -1;
 pin_number kSocket5_Microstep_1PinNumber    = -1;
 pin_number kSocket5_Microstep_2PinNumber    = -1;
 pin_number kSocket5_VrefPinNumber           = -1;
 
-pin_number kSocket6_StepPinNumber           = -1;
-pin_number kSocket6_DirPinNumber            = -1;
+pin_number kSocket6_StepPinNumber           = 12;
+pin_number kSocket6_DirPinNumber            = 13;
 pin_number kSocket6_EnablePinNumber         = -1;
 pin_number kSocket6_Microstep_0PinNumber    = -1;
 pin_number kSocket6_Microstep_1PinNumber    = -1;
 pin_number kSocket6_Microstep_2PinNumber    = -1;
 pin_number kSocket6_VrefPinNumber           = -1;
 
-pin_number kInput1_PinNumber = -1;
-pin_number kInput2_PinNumber = -1;
-pin_number kInput3_PinNumber = -1;
-pin_number kInput4_PinNumber = -1;
-pin_number kInput5_PinNumber = -1;
-pin_number kInput6_PinNumber = -1;
-
-pin_number kInput7_PinNumber  = -1;
-pin_number kInput8_PinNumber  = -1;
-pin_number kInput9_PinNumber  = -1;
-pin_number kInput10_PinNumber = -1;
-pin_number kInput11_PinNumber = -1;
-pin_number kInput12_PinNumber = -1;
+pin_number kInput1_PinNumber = 14;
+pin_number kInput2_PinNumber = 15;
+pin_number kInput3_PinNumber = 16;
+pin_number kInput4_PinNumber = 17;
+pin_number kInput5_PinNumber = 18;
+pin_number kInput6_PinNumber = 19;
+pin_number kInput7_PinNumber  = 20;
+pin_number kInput8_PinNumber  = 21;
+pin_number kInput9_PinNumber  = 22;
+pin_number kInput10_PinNumber = 23;
+pin_number kInput11_PinNumber = 24;
+pin_number kInput12_PinNumber = 25;
 
 pin_number kSpindle_EnablePinNumber = -1;
 pin_number kSpindle_DirPinNumber    = -1;

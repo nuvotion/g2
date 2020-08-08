@@ -121,10 +121,13 @@ struct sdlcIOBoard_inst : sdlcIOBoard {
         }
     }
 
-    void update_inputs() {
+    void update_inputs(uint64_t val) {
         uint8_t i;
         for (i = 0; i < num_inputs; i++) {
-            (input_data >> i) & 1 ? inputs.set(i) : inputs.reset(i);
+            (val >> i) & 1 ? inputs.set(i) : inputs.reset(i);
+        }
+        switch (addr) {
+            case 0x15: return PSOC::SDLC_C_Handler(val ^ input_data);
         }
     }
 
@@ -155,16 +158,16 @@ struct sdlcIOBoard_inst : sdlcIOBoard {
                 break;
         }
         if (val != input_data) {
+            update_inputs(val);
             input_data = val;
-            update_inputs();
         }
     }
 };
 
-sdlcIOBoard_inst<0x10, 24, 16,  0, 2> headIO;
-sdlcIOBoard_inst<0x13, 48, 32, 64, 0> rightIO;
-sdlcIOBoard_inst<0x14, 48, 32, 64, 0> leftIO;
-sdlcIOBoard_inst<0x15, 32, 32,  0, 0> loaderIO;
+static sdlcIOBoard_inst<0x10, 24, 16,  0, 2> headIO;
+static sdlcIOBoard_inst<0x13, 48, 32, 64, 0> rightIO;
+static sdlcIOBoard_inst<0x14, 48, 32, 64, 0> leftIO;
+static sdlcIOBoard_inst<0x15, 32, 32,  0, 0> loaderIO;
 
 static sdlcIOBoard& _board(nvObj_t *nv) {
     const char *ptr = cfgArray[nv->index].token; 
@@ -190,11 +193,9 @@ namespace PSOC {
 
         static uint8_t rx_data[20] __attribute__((aligned(4)));
         static uint8_t board_sel;
-        static sdlcIOBoard *board;
+        static sdlcIOBoard *board = &leftIO;
 
-        if (board) {
-            board->parse(rx_data, SDLC_GetRxBytes());
-        }
+        board->parse(rx_data, SDLC_GetRxBytes());
 
         board_sel = (board_sel + 1) % 4;
         switch (board_sel) {
@@ -207,4 +208,8 @@ namespace PSOC {
         SDLC_SendReceive(board->get_packet_len(), 20, board->get_packet(), rx_data);
 
     }, nullptr};
+
+    bool SDLC_C_Read(uint32_t mask) {
+        return (mask & loaderIO.inputs.to_ulong()) ? true : false;
+    }
 }

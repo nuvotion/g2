@@ -38,21 +38,23 @@
 namespace Motate {
 
     /* Fake port names:
-     * B,C - Board LED indicators
+     * A,B - Board LED indicators
      * M   - Motor control (step)
      * N   - Motor control (dir)
      * L   - Left I/O board
      * R   - Right I/O board
-     * H   - Head I/O board */
+     * H   - Head I/O board
+     * C   - Chip loader I/O board */
 
-    _MAKE_MOTATE_PIN(kLED_PinNumber, 'B', 0);
-    _MAKE_MOTATE_PIN(kUSB_PinNumber, 'C', 0);
+    _MAKE_MOTATE_PIN(kLED_PinNumber, 'A', 0);
+    _MAKE_MOTATE_PIN(kUSB_PinNumber, 'B', 0);
 
     _MAKE_MOTATE_PIN(kSocket1_StepPinNumber, 'M', 0);
     _MAKE_MOTATE_PIN(kSocket1_DirPinNumber,  'N', 0);
     _MAKE_MOTATE_PIN(kSocket2_StepPinNumber, 'M', 1);
     _MAKE_MOTATE_PIN(kSocket2_DirPinNumber,  'N', 1);
 
+    _MAKE_MOTATE_PIN(kInput1_PinNumber, 'C', 22);
 }  // namespace Motate
 
 // We then allow each chip-type to have it's own function definitions

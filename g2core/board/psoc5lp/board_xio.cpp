@@ -9,6 +9,7 @@ void board_xio_init(void) {
     SysTickTimer.registerEvent(&PSOC::usb_systick_event);
     SDLC_Setup();
     SysTickTimer.registerEvent(&PSOC::sdlc_poll);
+    SysTickTimer.registerEvent(&PSOC::status_pin_poll);
 }
 
 PSOC::UART Serial;

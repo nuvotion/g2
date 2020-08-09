@@ -11,6 +11,8 @@ extern "C" {
     uint8_t LED_1_Read(void);
     void LED_1_Write(uint8_t value);
 
+    uint8_t INPUT_STATUS_Read(void);
+
     uint8_t STEP_0_5_Read(void);
     void STEP_0_5_Write(uint8_t control);
     uint8_t DIR_0_5_Read(void);

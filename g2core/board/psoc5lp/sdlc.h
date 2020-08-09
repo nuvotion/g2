@@ -5,8 +5,8 @@ namespace PSOC {
     extern Motate::SysTickEvent sdlc_poll;
 }
 
-extern stat_t sd_get_sdlc(nvObj_t *nv);
-extern stat_t sd_set_sdlc(nvObj_t *nv);
+stat_t sd_get_sdlc(nvObj_t *nv);
+stat_t sd_set_sdlc(nvObj_t *nv);
 
 #endif // End of include guard: SDLC_H_ONCE
 

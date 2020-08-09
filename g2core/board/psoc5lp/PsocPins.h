@@ -37,8 +37,9 @@
 #include <type_traits>
 
 namespace PSOC {
-    extern void SDLC_C_Handler(uint32_t mask);
-    extern bool SDLC_C_Read(uint32_t mask);
+    void SDLC_C_Handler(uint32_t mask);
+    bool SDLC_C_Read(uint32_t mask);
+    extern Motate::SysTickEvent status_pin_poll;
 }
 
 namespace Motate {
@@ -207,6 +208,7 @@ namespace Motate {
         uintPort_t getInputValues(const uintPort_t mask) {
             switch (portLetter) {
                 case 'C': return PSOC::SDLC_C_Read(mask);
+                case 'S': return (INPUT_STATUS_Read() & mask);
             }
             return 0;
         }

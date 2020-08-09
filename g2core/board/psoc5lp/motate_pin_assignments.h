@@ -54,6 +54,14 @@ namespace Motate {
     _MAKE_MOTATE_PIN(kSocket1_DirPinNumber,  'N', 0);
     _MAKE_MOTATE_PIN(kSocket2_StepPinNumber, 'M', 1);
     _MAKE_MOTATE_PIN(kSocket2_DirPinNumber,  'N', 1);
+    _MAKE_MOTATE_PIN(kSocket3_StepPinNumber, 'M', 2);
+    _MAKE_MOTATE_PIN(kSocket3_DirPinNumber,  'N', 2);
+    _MAKE_MOTATE_PIN(kSocket4_StepPinNumber, 'M', 3);
+    _MAKE_MOTATE_PIN(kSocket4_DirPinNumber,  'N', 3);
+    _MAKE_MOTATE_PIN(kSocket5_StepPinNumber, 'M', 4);
+    _MAKE_MOTATE_PIN(kSocket5_DirPinNumber,  'N', 4);
+    _MAKE_MOTATE_PIN(kSocket6_StepPinNumber, 'M', 5);
+    _MAKE_MOTATE_PIN(kSocket6_DirPinNumber,  'N', 5);
 
     _MAKE_MOTATE_PIN(kInput1_PinNumber, 'C', 22);
     _MAKE_MOTATE_PIN(kInput2_PinNumber, 'S',  0);

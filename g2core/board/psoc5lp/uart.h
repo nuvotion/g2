@@ -24,11 +24,6 @@ namespace PSOC {
         char *last_write = nullptr;
         char *last_read = nullptr;
 
-        void reset(void) {
-            last_write = nullptr;
-            last_read = nullptr;
-        }
-
         void setConnectionCallback(std::function<void(bool)> &&callback) {
             connection_state_changed_callback = std::move(callback);
         }
@@ -38,10 +33,12 @@ namespace PSOC {
             uint16_t remaining = length;
             uint16_t offset = 0;
 
-            if (!cdc_open) return false;
+            if (!cdc_open) goto finish;
 
             while (remaining) {
-                while (!USBFS_CDCIsReady()) {};
+                while (!USBFS_CDCIsReady()) {
+                    if (!cdc_open) goto finish;
+                }
                 num_bytes = min((uint16_t) 64, remaining);
 
                 USBFS_PutData((const uint8_t *) buffer + offset, num_bytes);
@@ -49,6 +46,7 @@ namespace PSOC {
                 offset += num_bytes;
             }
 
+            finish:
             last_read = buffer + length;
             transfer_tx_done_callback();
             return true;

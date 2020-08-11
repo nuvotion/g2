@@ -41,7 +41,6 @@ namespace PSOC {
                 (USBFS_IsLineChanged() & USBFS_LINE_CONTROL_CHANGED) && USBFS_GetLineControl()) {
             /* TTY opened */
             SerialUSB.cdc_open = 1;
-            SerialUSB.reset();
             SerialUSB.connection_state_changed_callback(true);
             USBStatusLed.set();
         }

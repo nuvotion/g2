@@ -31,12 +31,15 @@ extern "C" {
     void FWD_PLAN_IRQ_ClearPending(void);
 
     void USBFS_Start(uint8_t device, uint8_t mode);
+    void USBFS_Stop(void);
     uint8_t USBFS_GetConfiguration(void);
     uint8_t USBFS_CDC_Init(void);
     uint8_t USBFS_DataIsReady(void);
     uint16_t USBFS_GetAll(uint8_t *pData);
     uint8_t USBFS_CDCIsReady(void);
     void USBFS_PutData(const uint8_t *pData, uint16_t length);
+    uint8_t USBFS_IsLineChanged(void);
+    uint16_t USBFS_GetLineControl(void);
 
     void SDLC_Setup(void);
     void SDLC_SendReceive(uint8_t tx_len, uint8_t rx_len, uint8_t *tx_data, uint8_t *rx_data);

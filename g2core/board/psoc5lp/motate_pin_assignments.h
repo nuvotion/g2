@@ -64,7 +64,7 @@ namespace Motate {
     _MAKE_MOTATE_PIN(kSocket6_DirPinNumber,  'N', 5);
 
     _MAKE_MOTATE_PIN(kInput1_PinNumber, 'C', 22);
-    _MAKE_MOTATE_PIN(kInput2_PinNumber, 'S',  0);
+    _MAKE_MOTATE_PIN(kInput9_PinNumber, 'S',  0);
 }  // namespace Motate
 
 // We then allow each chip-type to have it's own function definitions

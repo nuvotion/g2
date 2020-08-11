@@ -47,8 +47,8 @@
 #define ADC2_AVAILABLE 0
 #define ADC3_AVAILABLE 0
 
-#define XIO_HAS_USB 0
-#define XIO_HAS_UART 1
+#define XIO_HAS_USB 1
+#define XIO_HAS_UART 0
 #define XIO_HAS_SPI 0
 #define XIO_HAS_I2C 0
 

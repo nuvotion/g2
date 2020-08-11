@@ -160,6 +160,14 @@ ifeq ("$(CONFIG)","EggBot")
     SETTINGS_FILE="settings_eggbot.h"
 endif
 
+##########
+# Yamaha PNP configs:
+ifeq ("$(CONFIG)","yamaha")
+    ifeq ("$(BOARD)","NONE")
+        BOARD=psoc5lp
+    endif
+    SETTINGS_FILE="settings_yamaha.h"
+endif
 
 include $(wildcard ./board/$(STAR).mk)
 

@@ -17,8 +17,9 @@ namespace PSOC {
         std::function<void(bool)> connection_state_changed_callback;
         std::function<void(void)> transfer_tx_done_callback;
 
-        int usb_up = 0;
-        uint16_t rx_bytes_received = 0;
+        int usb_configured = 0;
+        int usb_connected = 0;
+        int cdc_open = 0;
         uint8_t rx_bytes[64];
         char *last_write = nullptr;
         char *last_read = nullptr;
@@ -37,7 +38,7 @@ namespace PSOC {
             uint16_t remaining = length;
             uint16_t offset = 0;
 
-            if (!usb_up) return false;
+            if (!cdc_open) return false;
 
             while (remaining) {
                 while (!USBFS_CDCIsReady()) {};
@@ -66,6 +67,9 @@ namespace PSOC {
 
         bool startRXTransfer(char *&buffer, uint16_t length, char *&buffer2, uint16_t length2) {
             uint8_t first_write;
+            uint16_t rx_bytes_received;
+
+            if (!cdc_open) return false;
 
             if (!USBFS_DataIsReady()) return false;
 
@@ -96,7 +100,6 @@ namespace PSOC {
         }
 
         void flushRead() {
-            if (USBFS_DataIsReady()) USBFS_GetAll(rx_bytes);
         }
     };
 }

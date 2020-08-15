@@ -38,17 +38,17 @@
 namespace Motate {
 
     /* Fake port names:
-     * A,B - Board LED indicators
-     * S   - Board status input pins
-     * M   - Motor control (step)
-     * N   - Motor control (dir)
-     * L   - Left I/O board
-     * R   - Right I/O board
-     * H   - Head I/O board
-     * C   - Chip loader I/O board */
+     * L - Board LED indicators
+     * S - Board status input pins
+     * M - Motor control (step)
+     * N - Motor control (dir)
+     * L - Left I/O board
+     * R - Right I/O board
+     * H - Head I/O board
+     * C - Chip loader I/O board */
 
-    _MAKE_MOTATE_PIN(kLED_PinNumber, 'A', 0);
-    _MAKE_MOTATE_PIN(kUSB_PinNumber, 'B', 0);
+    _MAKE_MOTATE_PIN(kLED_PinNumber, 'L', 0);
+    _MAKE_MOTATE_PIN(kUSB_PinNumber, 'L', 1);
 
     _MAKE_MOTATE_PIN(kSocket1_StepPinNumber, 'M', 0);
     _MAKE_MOTATE_PIN(kSocket1_DirPinNumber,  'N', 0);

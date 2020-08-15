@@ -6,17 +6,7 @@
 extern "C" {
     void CyGetUniqueId(uint32_t *uniqueId);
 
-    uint8_t LED_0_Read(void);
-    void LED_0_Write(uint8_t value);
-    uint8_t LED_1_Read(void);
-    void LED_1_Write(uint8_t value);
-
     uint8_t INPUT_STATUS_Read(void);
-
-    uint8_t STEP_0_5_Read(void);
-    void STEP_0_5_Write(uint8_t control);
-    uint8_t DIR_0_5_Read(void);
-    void DIR_0_5_Write(uint8_t control);
 
     void SYSTICK_TIMER_Start(void);
     void DDA_TIMER_Start(void);

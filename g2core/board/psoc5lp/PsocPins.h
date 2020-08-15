@@ -36,6 +36,8 @@
 #include <functional>   // for std::function
 #include <type_traits>
 
+#include "cyfitter.h"
+
 namespace PSOC {
     void SDLC_C_Handler(uint32_t mask);
     bool SDLC_C_Read(uint32_t mask);
@@ -163,24 +165,11 @@ namespace Motate {
 
         // The constexpr functions we can define here, and get really great optimization.
         // These switch statements are handled by the compiler, not at runtime.
-        typedef uint8_t (*port_rd_t)(void);
-        typedef void (*port_wr_t)(uint8_t val);
-
-        constexpr port_rd_t const readPort() const {
+        constexpr uint8_t* const hwPort() const {
             switch (portLetter) {
-                case 'A': return LED_0_Read;
-                case 'B': return LED_1_Read;
-                case 'M': return STEP_0_5_Read;
-                case 'N': return DIR_0_5_Read;
-            }
-        }
-
-        constexpr port_wr_t const writePort() const {
-            switch (portLetter) {
-                case 'A': return LED_0_Write;
-                case 'B': return LED_1_Write;
-                case 'M': return STEP_0_5_Write;
-                case 'N': return DIR_0_5_Write;
+                case 'L': return (uint8_t *) LOCAL_OUTPUT_Sync_ctrl_reg__CONTROL_REG;
+                case 'M': return (uint8_t *) STEP_0_5_Sync_ctrl_reg__CONTROL_REG;
+                case 'N': return (uint8_t *) DIR_0_5_Sync_ctrl_reg__CONTROL_REG;
             }
         }
 
@@ -193,15 +182,15 @@ namespace Motate {
         }
 
         void set(const uintPort_t mask) {
-            writePort()(readPort()() | mask);
+            *hwPort() = (*hwPort() | mask);
         }
 
         void clear(const uintPort_t mask) {
-            writePort()(readPort()() & ~mask);
+            *hwPort() = (*hwPort() & ~mask);
         }
 
         void toggle(const uintPort_t mask) {
-            if (readPort()() & mask) clear(mask);
+            if (*hwPort() & mask) clear(mask);
             else set(mask);
         }
 

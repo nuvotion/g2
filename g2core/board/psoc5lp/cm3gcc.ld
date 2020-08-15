@@ -1,1 +1,1 @@
-/home/kmtaylor/src/control_planner/build/config/cm3gcc.ld
+../../../../control_planner/build/config/cm3gcc.ld

@@ -796,7 +796,10 @@ stat_t cm_test_soft_limits(const float target[])
 {
     if (cm->soft_limit_enable == true) {
         for (uint8_t axis = AXIS_X; axis < AXES; axis++) {
-            if (cm->homed[axis] != true) { continue; }                               // skip axis if not homed
+            if (cm->a[axis].axis_mode == AXIS_DISABLED) { continue; }                // skip axis if disabled
+            if (cm->homed[axis] != true) {
+                return (_finalize_soft_limits(STAT_SOFT_LIMIT_EXCEEDED_XMIN + 2*axis));
+            }
             if (fp_EQ(cm->a[axis].travel_min, cm->a[axis].travel_max)) { continue; } // skip axis if identical
             if (fabs(cm->a[axis].travel_min) > DISABLE_SOFT_LIMIT) { continue; }     // skip min test if disabled
             if (fabs(cm->a[axis].travel_max) > DISABLE_SOFT_LIMIT) { continue; }     // skip max test if disabled

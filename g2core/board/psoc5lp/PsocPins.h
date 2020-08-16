@@ -41,6 +41,7 @@
 namespace PSOC {
     void SDLC_C_Handler(uint32_t mask);
     bool SDLC_C_Read(uint32_t mask);
+    void SDLC_C_Write(uint8_t io, bool val);
     extern Motate::SysTickEvent status_pin_poll;
 }
 

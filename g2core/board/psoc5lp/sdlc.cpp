@@ -27,19 +27,27 @@ struct sdlcIOBoard_inst : sdlcIOBoard {
 
     uint8_t pkt[10] __attribute__((aligned(4)));
 
+    void do_set(uint8_t io) {
+        if (io < num_outputs)
+            outputs.set(io);
+        else if (io < num_muxd_outputs + num_outputs)
+            muxd_outputs.set(io - num_outputs);
+    }
+
     stat_t do_set(nvObj_t *nv) {
-        if (nv->value_int < num_outputs)
-            outputs.set(nv->value_int);
-        else if (nv->value_int < num_muxd_outputs + num_outputs)
-            muxd_outputs.set(nv->value_int - num_outputs);
+        do_set(nv->value_int);
         return STAT_OK;
     }
 
+    void do_clear(uint8_t io) {
+        if (io < num_outputs)
+            outputs.reset(io);
+        else if (io < num_muxd_outputs + num_outputs)
+            muxd_outputs.reset(io - num_outputs);
+    }
+
     stat_t do_clear(nvObj_t *nv) {
-        if (nv->value_int < num_outputs)
-            outputs.reset(nv->value_int);
-        else if (nv->value_int < num_muxd_outputs + num_outputs)
-            muxd_outputs.reset(nv->value_int - num_outputs);
+        do_clear(nv->value_int);
         return STAT_OK;
     }
 
@@ -211,5 +219,12 @@ namespace PSOC {
 
     bool SDLC_C_Read(uint32_t mask) {
         return (mask & loaderIO.inputs.to_ulong()) ? true : false;
+    }
+
+    void SDLC_C_Write(uint8_t io, bool val) {
+        if (val)
+            loaderIO.do_set(io);
+        else
+            loaderIO.do_clear(io);
     }
 }

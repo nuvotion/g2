@@ -1,0 +1,65 @@
+#include "hardware.h"
+#include "gpio.h"
+
+#include "canonical_machine.h"
+#include "xio.h"
+
+struct Hal {
+    Hal() {
+        Motate::SysTickTimer.registerEvent(&hal_event);
+    }
+
+    void estop_machine() {
+        if (cm->machine_state != MACHINE_CYCLE) {
+            cm->machine_state = MACHINE_ALARM;
+        } else {
+            if (cm->hold_state == FEEDHOLD_OFF) {
+                cm_request_feedhold(FEEDHOLD_TYPE_HOLD, FEEDHOLD_EXIT_FLUSH);
+            } else if (cm->hold_state == FEEDHOLD_HOLD) {
+                cm_request_cycle_start();
+                xio_flush_to_command();
+            }
+        }
+    }
+
+    void unhome() {
+        for (uint8_t i = 0; i < HOMING_AXES; i++) {
+            cm->homed[i] = false;
+        }
+        cm->homing_state = HOMING_NOT_HOMED;
+    }
+
+    Motate::SysTickEvent hal_event {[&] {
+        bool feeder_front_fault;
+        bool feeder_rear_fault;
+        bool feeder_fault;
+        bool motor_ac_fault;
+        bool motor_dc_fault;
+        bool power_good;
+        bool motor_fault;
+        bool estop_lamp;
+
+        feeder_front_fault = PSOC::SDLC_C_Read(1 << 22);
+        feeder_rear_fault = 0;
+        feeder_fault = feeder_front_fault || feeder_rear_fault;
+
+        motor_ac_fault = !gpio_read_input(1);
+        motor_dc_fault = !gpio_read_input(2);
+        power_good = gpio_read_input(3);
+        motor_fault = !power_good || motor_ac_fault || motor_dc_fault;
+
+        estop_lamp = motor_fault || feeder_fault;
+        PSOC::SDLC_C_Write(0, estop_lamp);
+
+        if (motor_fault) {
+            estop_machine();
+            unhome();
+        }
+
+        if (feeder_fault) {
+            estop_machine();
+        }
+    }, nullptr};
+};
+
+Hal Hal;

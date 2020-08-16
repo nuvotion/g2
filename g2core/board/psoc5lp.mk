@@ -11,6 +11,7 @@ ifeq ("$(BOARD)","psoc5lp")
     SOURCE_DIRS += ${BOARD_PATH} device/step_dir_driver
 
     DEVICE_DEFINES += MOTATE_BOARD="nuvotion"
+    DEVICE_DEFINES += SETTINGS_FILE=${SETTINGS_FILE}
 
     DEVICE_LINKER_SCRIPT_PATH = $(BOARD_PATH)
     DEVICE_LINKER_SCRIPT = $(BOARD_PATH)/cm3gcc.ld

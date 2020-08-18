@@ -17,6 +17,7 @@ struct sdlcIOBoard_inst : sdlcIOBoard {
     std::bitset<num_outputs> outputs;
     std::bitset<num_muxd_outputs> muxd_outputs;
     uint64_t input_data = 0;
+    uint8_t input_idx = 0;
     uint8_t mux_sel = 0;
     uint8_t pkt_count = 0;
 
@@ -57,12 +58,18 @@ struct sdlcIOBoard_inst : sdlcIOBoard {
         return STAT_OK;
     }
 
+    stat_t store_idx(nvObj_t *nv) {
+        input_idx = nv->value_int < num_inputs ? nv->value_int : 0;
+        return STAT_OK;
+    }
+
     stat_t set(nvObj_t *nv) {
         const char *ptr = cfgArray[nv->index].token; 
         switch (ptr[3]) {
             case 's': return do_set(nv);
             case 'c': return do_clear(nv);
             case 'r': return do_reset(nv);
+            case 'i': return store_idx(nv);
         }
         return STAT_OK;
     }
@@ -75,6 +82,8 @@ struct sdlcIOBoard_inst : sdlcIOBoard {
 
             case 'i':
                 return get_string(nv, inputs.to_string().c_str());
+            case 'r':
+                return get_integer(nv, num_inputs ? inputs[input_idx] : 0);
 
             case 'a':
                 return get_integer(nv, num_adcs ? adcs[0] : 0);

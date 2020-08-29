@@ -143,6 +143,8 @@ pin_number kInput10_PinNumber = 23;
 pin_number kInput11_PinNumber = 24;
 pin_number kInput12_PinNumber = 25;
 
+pin_number kUFM_PinNumber = 26;
+
 pin_number kSpindle_EnablePinNumber = -1;
 pin_number kSpindle_DirPinNumber    = -1;
 pin_number kSpindle_PwmPinNumber    = -1;

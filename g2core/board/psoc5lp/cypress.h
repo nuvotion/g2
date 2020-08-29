@@ -35,6 +35,9 @@ extern "C" {
     void SDLC_SendReceive(uint8_t tx_len, uint8_t rx_len, uint8_t *tx_data, uint8_t *rx_data);
     uint16_t SDLC_GetRxBytes(void);
 
+    void I2C_UFM_SetupDMA(uint8_t max_len);
+    void I2C_UFM_WriteDMA(uint8_t len, uint8_t *wr_data);
+
     __attribute__((always_inline)) static inline void __DMB(void) {
         __asm volatile ("dmb 0xF":::"memory");
     }

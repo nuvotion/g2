@@ -49,6 +49,7 @@ namespace Motate {
 
     _MAKE_MOTATE_PIN(kLED_PinNumber, 'L', 0);
     _MAKE_MOTATE_PIN(kUSB_PinNumber, 'L', 1);
+    _MAKE_MOTATE_PIN(kUFM_PinNumber, 'L', 2);
 
     _MAKE_MOTATE_PIN(kSocket1_StepPinNumber, 'M', 0);
     _MAKE_MOTATE_PIN(kSocket1_DirPinNumber,  'N', 0);

@@ -373,7 +373,7 @@ typedef struct stConfig {                   // stepper configs
 // Motor runtime structure. Used exclusively by step generation ISR (HI)
 
 typedef struct stRunMotor {                 // one per controlled motor
-    uint32_t substep_increment;             // total steps in axis times substeps factor
+    int32_t substep_increment;              // total steps in axis times substeps factor
     int32_t substep_accumulator;            // DDA phase angle accumulator
     bool motor_flag;                        // true if motor is participating in this move
     uint32_t power_systick;                 // sys_tick for next motor power state transition
@@ -393,7 +393,7 @@ typedef struct stRunSingleton {             // Stepper static values and axis pa
 // Must be careful about volatiles in this one
 
 typedef struct stPrepMotor {
-    uint32_t substep_increment;             // total steps in axis times substep factor
+    int32_t substep_increment;              // total steps in axis times substep factor
     bool motor_flag;                        // true if motor is participating in this move
 
     // direction and direction change
@@ -568,7 +568,7 @@ public:
     virtual bool canStep() { return true; };
     virtual void _enableImpl() { /* must override */ };
     virtual void _disableImpl() { /* must override */ };
-    virtual void stepStart() { /* must override */ };
+    virtual void stepStart(int8_t steps) { /* must override */ };
     virtual void stepEnd() { /* must override */ };
     virtual void setDirection(uint8_t new_direction) { /* must override */ };
     virtual void setMicrosteps(const uint8_t microsteps) { /* must override */ };

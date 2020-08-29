@@ -30,7 +30,7 @@
 #define BOARD_STEPPER_H_ONCE
 
 #include "hardware.h"  // for MOTORS
-#include "step_dir_driver.h"
+#include "step_dir_ufm.h"
 
 extern StepDirStepper<Motate::kSocket1_StepPinNumber,
                       Motate::kSocket1_DirPinNumber,

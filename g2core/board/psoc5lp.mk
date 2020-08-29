@@ -8,7 +8,7 @@ ifeq ("$(BOARD)","psoc5lp")
     CPU_DEV = cortex-m3
 
     BOARD_PATH = board/psoc5lp
-    SOURCE_DIRS += ${BOARD_PATH} device/step_dir_driver
+    SOURCE_DIRS += ${BOARD_PATH} # device/step_dir_driver
 
     DEVICE_DEFINES += MOTATE_BOARD="nuvotion"
     DEVICE_DEFINES += SETTINGS_FILE=${SETTINGS_FILE}

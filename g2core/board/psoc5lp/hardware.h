@@ -101,7 +101,7 @@ using Motate::OutputPin;
 
 /**** Stepper DDA and dwell timer settings ****/
 
-#define FREQUENCY_DDA           150000UL                // Hz step frequency. Interrupts actually fire at 2x (400 KHz)
+#define FREQUENCY_DDA           5102UL                  // Hz step frequency. Interrupts actually fire at 2x (400 KHz)
 #define FREQUENCY_DWELL         1000UL
 #define FREQUENCY_SGI           200000UL                // 200,000 Hz means software interrupts will fire 5 uSec after being called
 
@@ -115,6 +115,7 @@ typedef TimerChannel<5,0> fwd_plan_timer_type;  // request exec timer in stepper
 // Pin assignments
 static OutputPin<Motate::kLED_PinNumber> IndicatorLed;
 static OutputPin<Motate::kUSB_PinNumber> USBStatusLed;
+static OutputPin<Motate::kUFM_PinNumber> UFMEnable;
 
 /**** Motate Global Pin Allocations ****/
 

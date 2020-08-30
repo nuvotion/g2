@@ -439,143 +439,21 @@ static stat_t _homing_finalize_exit(int8_t axis)  // third part of return to hom
  *  user-specified axis homing orders
  */
 
+static const int8_t home_order[] = {
+    AXIS_U, AXIS_V, AXIS_A, AXIS_B, AXIS_X, AXIS_Y, -1};
+
 static int8_t _get_next_axis(int8_t axis) {
-#if (HOMING_AXES <= 4)
-    if (axis == -1) {  // inelegant brute force solution
-        if (hm.axis_flags[AXIS_Z]) {
-            return (AXIS_Z);
-        }
-        if (hm.axis_flags[AXIS_X]) {
-            return (AXIS_X);
-        }
-        if (hm.axis_flags[AXIS_Y]) {
-            return (AXIS_Y);
-        }
-        if (hm.axis_flags[AXIS_A]) {
-            return (AXIS_A);
-        }
-        if (hm.axis_flags[AXIS_B]) {
-            return (AXIS_B);
-        }
-        if (hm.axis_flags[AXIS_C]) {
-            return (AXIS_C);
-        }
-        return (-2);  // error
-    } else if (axis == AXIS_Z) {
-        if (hm.axis_flags[AXIS_X]) {
-            return (AXIS_X);
-        }
-        if (hm.axis_flags[AXIS_Y]) {
-            return (AXIS_Y);
-        }
-        if (hm.axis_flags[AXIS_A]) {
-            return (AXIS_A);
-        }
-        if (hm.axis_flags[AXIS_B]) {
-            return (AXIS_B);
-        }
-        if (hm.axis_flags[AXIS_C]) {
-            return (AXIS_C);
-        }
-    } else if (axis == AXIS_X) {
-        if (hm.axis_flags[AXIS_Y]) {
-            return (AXIS_Y);
-        }
-        if (hm.axis_flags[AXIS_A]) {
-            return (AXIS_A);
-        }
-        if (hm.axis_flags[AXIS_B]) {
-            return (AXIS_B);
-        }
-        if (hm.axis_flags[AXIS_C]) {
-            return (AXIS_C);
-        }
-    } else if (axis == AXIS_Y) {
-        if (hm.axis_flags[AXIS_A]) {
-            return (AXIS_A);
-        }
-        if (hm.axis_flags[AXIS_B]) {
-            return (AXIS_B);
-        }
-        if (hm.axis_flags[AXIS_C]) {
-            return (AXIS_C);
-        }
-    }
-    return (-1);  // done
+    const int8_t *a;
+    bool found = 0;
 
-#else
-    if (axis == -1) {
-        if (hm.axis_flags[AXIS_Z]) {
-            return (AXIS_Z);
-        }
-        if (hm.axis_flags[AXIS_X]) {
-            return (AXIS_X);
-        }
-        if (hm.axis_flags[AXIS_Y]) {
-            return (AXIS_Y);
-        }
-        if (hm.axis_flags[AXIS_A]) {
-            return (AXIS_A);
-        }
-        if (hm.axis_flags[AXIS_B]) {
-            return (AXIS_B);
-        }
-        if (hm.axis_flags[AXIS_C]) {
-            return (AXIS_C);
-        }
-        return (-2);  // error
-    } else if (axis == AXIS_Z) {
-        if (hm.axis_flags[AXIS_X]) {
-            return (AXIS_X);
-        }
-        if (hm.axis_flags[AXIS_Y]) {
-            return (AXIS_Y);
-        }
-        if (hm.axis_flags[AXIS_A]) {
-            return (AXIS_A);
-        }
-        if (hm.axis_flags[AXIS_B]) {
-            return (AXIS_B);
-        }
-        if (hm.axis_flags[AXIS_C]) {
-            return (AXIS_C);
-        }
-    } else if (axis == AXIS_X) {
-        if (hm.axis_flags[AXIS_Y]) {
-            return (AXIS_Y);
-        }
-        if (hm.axis_flags[AXIS_A]) {
-            return (AXIS_A);
-        }
-        if (hm.axis_flags[AXIS_B]) {
-            return (AXIS_B);
-        }
-        if (hm.axis_flags[AXIS_C]) {
-            return (AXIS_C);
-        }
-    } else if (axis == AXIS_Y) {
-        if (hm.axis_flags[AXIS_A]) {
-            return (AXIS_A);
-        }
-        if (hm.axis_flags[AXIS_B]) {
-            return (AXIS_B);
-        }
-        if (hm.axis_flags[AXIS_C]) {
-            return (AXIS_C);
-        }
-    } else if (axis == AXIS_A) {
-        if (hm.axis_flags[AXIS_B]) {
-            return (AXIS_B);
-        }
-        if (hm.axis_flags[AXIS_C]) {
-            return (AXIS_C);
-        }
-    } else if (axis == AXIS_B) {
-        if (hm.axis_flags[AXIS_C]) {
-            return (AXIS_C);
-        }
-    }
-    return (-1);  // done
+    if (axis == -1) found = 1;
 
-#endif  //  (HOMING_AXES <= 4)
+    for (a = home_order; *a >= 0; a++) {
+        if (found && hm.axis_flags[*a]) break;
+        if (axis == *a) found = 1; 
+    }
+
+    if ((axis == -1) && (*a == -1)) return -2;
+
+    return *a;
 }

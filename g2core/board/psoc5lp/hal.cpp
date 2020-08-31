@@ -29,6 +29,26 @@ struct Hal {
         cm->homing_state = HOMING_NOT_HOMED;
     }
 
+    const float default_travel_min[AXES] = {
+        X_TRAVEL_MIN,
+        Y_TRAVEL_MIN,
+        Z_TRAVEL_MIN,
+        U_TRAVEL_MIN,
+        V_TRAVEL_MIN,
+        W_TRAVEL_MIN,
+        A_TRAVEL_MIN,
+        B_TRAVEL_MIN,
+        C_TRAVEL_MIN
+    };
+
+    void lock_axis(uint8_t axis) {
+        cm->a[axis].travel_min = DISABLE_SOFT_LIMIT - 1;
+    }
+
+    void unlock_axis(uint8_t axis) {
+        cm->a[axis].travel_min = default_travel_min[axis];
+    }
+
     Motate::SysTickEvent hal_event {[&] {
         bool feeder_front_fault;
         bool feeder_rear_fault;
@@ -58,6 +78,16 @@ struct Hal {
 
         if (feeder_fault) {
             estop_machine();
+        }
+
+        /* Inhibit X/Y movement if either U or V are lowered */
+        if ((cm_get_absolute_position(MODEL, AXIS_U) < -10) ||
+            (cm_get_absolute_position(MODEL, AXIS_V) < -10)) {
+            lock_axis(AXIS_X);
+            lock_axis(AXIS_Y);
+        } else {
+            unlock_axis(AXIS_X);
+            unlock_axis(AXIS_Y);
         }
     }, nullptr};
 };

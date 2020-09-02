@@ -63,9 +63,9 @@ struct Hal {
         feeder_rear_fault = 0;
         feeder_fault = feeder_front_fault || feeder_rear_fault;
 
-        motor_ac_fault = !gpio_read_input(1);
-        motor_dc_fault = !gpio_read_input(2);
-        power_good = gpio_read_input(3);
+        motor_ac_fault = false; //!gpio_read_input(9);
+        motor_dc_fault = false; //!gpio_read_input(10);
+        power_good = true; //gpio_read_input(11);
         motor_fault = !power_good || motor_ac_fault || motor_dc_fault;
 
         estop_lamp = motor_fault || feeder_fault;

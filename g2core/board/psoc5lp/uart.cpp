@@ -3,7 +3,7 @@
 #include "board_xio.h"
 #include "gpio.h"
 
-#define VBUS_DIN 9
+#define VBUS_DIN 12
 #define USBFS_DWR_POWER_OPERATION   0x02
 #define USBFS_LINE_CONTROL_CHANGED  0x02
 

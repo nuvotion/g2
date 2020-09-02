@@ -1325,7 +1325,7 @@ const cfgItem_t cfgArray[] = {
     { "","6",  _f0, 0, tx_print_nul, get_grp, set_grp, nullptr, 0 },
 #endif
 
-#define DIGITAL_IN_GROUPS 10
+#define DIGITAL_IN_GROUPS 13
     { "","in",  _f0, 0, tx_print_nul, get_grp, set_grp, nullptr, 0 },   // input state
     { "","di1", _f0, 0, tx_print_nul, get_grp, set_grp, nullptr, 0 },   // input configs
     { "","di2", _f0, 0, tx_print_nul, get_grp, set_grp, nullptr, 0 },
@@ -1336,6 +1336,9 @@ const cfgItem_t cfgArray[] = {
     { "","di7", _f0, 0, tx_print_nul, get_grp, set_grp, nullptr, 0 },
     { "","di8", _f0, 0, tx_print_nul, get_grp, set_grp, nullptr, 0 },
     { "","di9", _f0, 0, tx_print_nul, get_grp, set_grp, nullptr, 0 },
+    { "","di10", _f0, 0, tx_print_nul, get_grp, set_grp, nullptr, 0 },
+    { "","di11", _f0, 0, tx_print_nul, get_grp, set_grp, nullptr, 0 },
+    { "","di12", _f0, 0, tx_print_nul, get_grp, set_grp, nullptr, 0 },
         
 #define DIGITAL_OUT_GROUPS 14
     { "","out", _f0, 0, tx_print_nul, get_grp, set_grp, nullptr, 0 },   // output state

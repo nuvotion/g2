@@ -189,6 +189,7 @@ namespace Motate {
             switch (timerNum) {
                 case 3:
                     DDA_TIMER_Start();
+                    DDA_IRQ_ClearPending();
                     DDA_IRQ_StartEx(DDA_Handler);
                     break;
                     

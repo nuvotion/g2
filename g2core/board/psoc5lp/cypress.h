@@ -13,6 +13,7 @@ extern "C" {
     typedef void (* cyisraddress)(void);
     void SYSTICK_IRQ_StartEx(cyisraddress address);
     void DDA_IRQ_StartEx(cyisraddress address);
+    void DDA_IRQ_ClearPending(void);
     void EXEC_IRQ_StartEx(cyisraddress address);
     void EXEC_IRQ_SetPending(void);
     void EXEC_IRQ_ClearPending(void);

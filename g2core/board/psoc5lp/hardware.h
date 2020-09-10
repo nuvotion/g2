@@ -101,7 +101,7 @@ using Motate::OutputPin;
 
 /**** Stepper DDA and dwell timer settings ****/
 
-#define FREQUENCY_DDA           5102UL                  // Hz step frequency. Interrupts actually fire at 2x (400 KHz)
+#define FREQUENCY_DDA           5029UL                  // Hz step frequency. Interrupts actually fire at 2x (400 KHz)
 #define FREQUENCY_DWELL         1000UL
 #define FREQUENCY_SGI           200000UL                // 200,000 Hz means software interrupts will fire 5 uSec after being called
 

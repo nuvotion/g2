@@ -792,11 +792,12 @@ static stat_t _finalize_soft_limits(const stat_t status)
     return (cm_alarm(status, "soft_limits"));               // throw an alarm
 }
 
-stat_t cm_test_soft_limits(const float target[])
+stat_t cm_test_soft_limits(const float target[], const bool flags[])
 {
     if (cm->soft_limit_enable == true) {
         for (uint8_t axis = AXIS_X; axis < AXES; axis++) {
             if (cm->a[axis].axis_mode == AXIS_DISABLED) { continue; }                // skip axis if disabled
+            if (flags[axis] != true) { continue; }
             if (cm->homed[axis] != true) {
                 return (_finalize_soft_limits(STAT_SOFT_LIMIT_EXCEEDED_XMIN + 2*axis));
             }
@@ -1152,7 +1153,8 @@ stat_t cm_straight_traverse(const float *target, const bool *flags, const uint8_
         return(STAT_OK);
     }
     cm_set_model_target(target, flags);
-    ritorno (cm_test_soft_limits(cm->gm.target));   // test soft limits; exit if thrown
+    ritorno (cm_test_soft_limits(cm->gm.target,     // test soft limits; exit if thrown
+                                 flags));
     cm_set_display_offsets(&cm->gm);                // capture the fully resolved offsets to the state
     cm_cycle_start();                               // required here for homing & other cycles
     stat_t status = mp_aline(&cm->gm);              // send the move to the planner
@@ -1312,7 +1314,8 @@ stat_t cm_straight_feed(const float *target, const bool *flags, const uint8_t mo
     }
 
     cm_set_model_target(target, flags);
-    ritorno (cm_test_soft_limits(cm->gm.target));   // test soft limits; exit if thrown
+    ritorno (cm_test_soft_limits(cm->gm.target,     // test soft limits; exit if thrown
+                                 flags));
     cm_set_display_offsets(&cm->gm);                // capture the fully resolved offsets to the state
     cm_cycle_start();                               // required for homing & other cycles
     stat_t status = mp_aline(&cm->gm);              // send the move to the planner

@@ -1,1 +1,1 @@
-../../../../control_planner/build/config/cm3gcc.ld
+../../../psoc_bsp/build/config/cm3gcc.ld

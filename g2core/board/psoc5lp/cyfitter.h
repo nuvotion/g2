@@ -1,1 +1,1 @@
-../../../../control_planner/build/config/cyfitter.h
+../../../psoc_bsp/build/config/cyfitter.h

@@ -1,1 +1,1 @@
-../../../../control_planner/build/config/cydevice.h
+../../../psoc_bsp/build/config/cydevice.h

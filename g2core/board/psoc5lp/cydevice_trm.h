@@ -1,1 +1,1 @@
-../../../../control_planner/build/config/cydevice_trm.h
+../../../psoc_bsp/build/config/cydevice_trm.h

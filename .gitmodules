@@ -2,3 +2,6 @@
 	path = Motate
 	url = https://github.com/synthetos/Motate.git
 	fetchRecurseSubmodules = yes
+[submodule "psoc_bsp"]
+	path = psoc_bsp
+	url = ./psoc_bsp

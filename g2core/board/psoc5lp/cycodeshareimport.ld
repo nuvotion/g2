@@ -1,1 +1,1 @@
-../../../../control_planner/build/config/cycodeshareimport.ld
+../../../psoc_bsp/build/config/cycodeshareimport.ld

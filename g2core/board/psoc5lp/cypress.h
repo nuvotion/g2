@@ -12,6 +12,7 @@ extern "C" {
     void DDA_TIMER_Start(void);
     typedef void (* cyisraddress)(void);
     void SYSTICK_IRQ_StartEx(cyisraddress address);
+    void SYSTICK_IRQ_ClearPending(void);
     void DDA_IRQ_StartEx(cyisraddress address);
     void DDA_IRQ_ClearPending(void);
     void EXEC_IRQ_StartEx(cyisraddress address);

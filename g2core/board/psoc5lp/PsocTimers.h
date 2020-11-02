@@ -270,6 +270,7 @@ namespace Motate {
         void init() {
             _motateTickCount = 0;
             SYSTICK_TIMER_Start();
+            SYSTICK_IRQ_ClearPending();
             SYSTICK_IRQ_StartEx(SysTick_Handler);
         };
 

@@ -42,6 +42,15 @@ namespace PSOC {
     void SDLC_C_Handler(uint32_t mask);
     bool SDLC_C_Read(uint32_t mask);
     void SDLC_C_Write(uint8_t io, bool val);
+    void SDLC_L_Handler(uint32_t mask);
+    bool SDLC_L_Read(uint32_t mask);
+    void SDLC_L_Write(uint8_t io, bool val);
+    void SDLC_R_Handler(uint32_t mask);
+    bool SDLC_R_Read(uint32_t mask);
+    void SDLC_R_Write(uint8_t io, bool val);
+    void SDLC_H_Handler(uint32_t mask);
+    bool SDLC_H_Read(uint32_t mask);
+    void SDLC_H_Write(uint8_t io, bool val);
     extern Motate::SysTickEvent status_pin_poll;
 }
 
@@ -198,6 +207,9 @@ namespace Motate {
         uintPort_t getInputValues(const uintPort_t mask) {
             switch (portLetter) {
                 case 'C': return PSOC::SDLC_C_Read(mask);
+                case 'L': return PSOC::SDLC_L_Read(mask);
+                case 'R': return PSOC::SDLC_R_Read(mask);
+                case 'H': return PSOC::SDLC_H_Read(mask);
                 case 'S': return (INPUT_STATUS_Read() & mask);
             }
             return 0;

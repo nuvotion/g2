@@ -64,16 +64,18 @@ namespace Motate {
     _MAKE_MOTATE_PIN(kSocket6_StepPinNumber, 'M', 5);
     _MAKE_MOTATE_PIN(kSocket6_DirPinNumber,  'N', 5);
 
-    _MAKE_MOTATE_PIN(kInput1_PinNumber,  'C', 22);
-    _MAKE_MOTATE_PIN(kInput2_PinNumber,  'C', 23);
-    _MAKE_MOTATE_PIN(kInput3_PinNumber,  'C', 24);
-    _MAKE_MOTATE_PIN(kInput4_PinNumber,  'C', 25);
-    _MAKE_MOTATE_PIN(kInput5_PinNumber,  'C', 26);
-    _MAKE_MOTATE_PIN(kInput6_PinNumber,  'C', 27);
-    _MAKE_MOTATE_PIN(kInput9_PinNumber,  'S',  1);
-    _MAKE_MOTATE_PIN(kInput10_PinNumber, 'S',  2);
-    _MAKE_MOTATE_PIN(kInput11_PinNumber, 'S',  3);
-    _MAKE_MOTATE_PIN(kInput12_PinNumber, 'S',  0);
+    _MAKE_MOTATE_PIN(kInput1_PinNumber,  'H', 0); // X-AXIS home
+    _MAKE_MOTATE_PIN(kInput2_PinNumber,  'R', 0); // Y-AXIS home
+    _MAKE_MOTATE_PIN(kInput3_PinNumber,  'H', 1); // U-AXIS home
+    _MAKE_MOTATE_PIN(kInput4_PinNumber,  'H', 3); // V-AXIS home
+    _MAKE_MOTATE_PIN(kInput5_PinNumber,  'H', 2); // A-AXIS home
+    _MAKE_MOTATE_PIN(kInput6_PinNumber,  'H', 4); // B-AXIS home
+    _MAKE_MOTATE_PIN(kInput7_PinNumber,  'S', 5); // Motor fault
+    _MAKE_MOTATE_PIN(kInput8_PinNumber,  'S', 4); // Motor fault
+    _MAKE_MOTATE_PIN(kInput9_PinNumber,  'S', 3); // Power good
+    _MAKE_MOTATE_PIN(kInput10_PinNumber, 'S', 2);
+    _MAKE_MOTATE_PIN(kInput11_PinNumber, 'S', 1);
+    _MAKE_MOTATE_PIN(kInput12_PinNumber, 'S', 0); // USB V-BUS
 }  // namespace Motate
 
 // We then allow each chip-type to have it's own function definitions

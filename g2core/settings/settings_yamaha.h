@@ -108,5 +108,13 @@
 #define M6_STEPS_PER_UNIT           50
 #define M6_MICROSTEPS               -1
 
+#define DI1_MODE                    IO_ACTIVE_LOW           /* X-AXIS home switch */
+#define DI2_MODE                    IO_ACTIVE_LOW           /* Y-AXIS home switch */
+#define DI3_MODE                    IO_ACTIVE_HIGH          /* U-AXIS home switch */
+#define DI4_MODE                    IO_ACTIVE_HIGH          /* V-AXIS home switch */
+#define DI5_MODE                    IO_ACTIVE_LOW           /* A-AXIS home switch */
+#define DI6_MODE                    IO_ACTIVE_LOW           /* B-AXIS home switch */
+
+#define DI9_MODE                    IO_ACTIVE_LOW           /* Motor power good */
 #define DI12_MODE                   IO_ACTIVE_HIGH          /* USB VBUS Detect */
 #define DI5_FUNCTION                INPUT_FUNCTION_NONE

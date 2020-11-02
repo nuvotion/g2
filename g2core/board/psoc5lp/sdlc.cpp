@@ -107,15 +107,15 @@ struct sdlcIOBoard_inst : sdlcIOBoard {
                 pkt[9] = (outputs.to_ulong() >> 8) & 0xff;
                 break;
             case 0x13:
-                pkt[3] = mux_sel + 1;
-                pkt[4] = (muxd_outputs.to_ullong() >> mux_sel*8) & 0xff;
+                pkt[3] = (muxd_outputs.to_ullong() >> mux_sel*8) & 0xff;
+                pkt[4] = mux_sel + 1;
                 val = outputs.to_ulong();
                 memcpy(&pkt[5], &val, 4); 
                 mux_sel = (mux_sel + 1) % 8;
                 break;
             case 0x14:
-                pkt[3] = mux_sel + 1;
-                pkt[4] = (muxd_outputs.to_ullong() >> mux_sel*8) & 0xff;
+                pkt[3] = (muxd_outputs.to_ullong() >> mux_sel*8) & 0xff;
+                pkt[4] = mux_sel + 1;
                 val = outputs.to_ulong();
                 memcpy(&pkt[5], &val, 4); 
                 mux_sel = (mux_sel + 1) % 8;
@@ -140,11 +140,17 @@ struct sdlcIOBoard_inst : sdlcIOBoard {
 
     void update_inputs(uint64_t val) {
         uint8_t i;
+        uint32_t mask;
         for (i = 0; i < num_inputs; i++) {
             (val >> i) & 1 ? inputs.set(i) : inputs.reset(i);
         }
+        mask = val ^ input_data;
+        input_data = val;
         switch (addr) {
-            case 0x15: return PSOC::SDLC_C_Handler(val ^ input_data);
+            case 0x15: return PSOC::SDLC_C_Handler(mask);
+            case 0x14: return PSOC::SDLC_L_Handler(mask);
+            case 0x13: return PSOC::SDLC_R_Handler(mask);
+            case 0x10: return PSOC::SDLC_H_Handler(mask);
         }
     }
 
@@ -153,9 +159,11 @@ struct sdlcIOBoard_inst : sdlcIOBoard {
         if (data[0] != addr) return;
         switch (addr) {
             case 0x10:
-                if (len != 22) return; 
-                if (mux_sel) memcpy(adcs, &data[3], 2);
-                else memcpy(&val, &data[17], 3);
+                if (len != 24) return;
+                if (mux_sel) {
+                    memcpy(adcs, &data[3], 2);
+                    val = input_data;
+                } else memcpy(&val, &data[17], 3);
                 pkt_count--;
                 break;
             case 0x13:
@@ -176,7 +184,6 @@ struct sdlcIOBoard_inst : sdlcIOBoard {
         }
         if (val != input_data) {
             update_inputs(val);
-            input_data = val;
         }
     }
 };
@@ -227,7 +234,7 @@ namespace PSOC {
     }, nullptr};
 
     bool SDLC_C_Read(uint32_t mask) {
-        return (mask & loaderIO.inputs.to_ulong()) ? true : false;
+        return (mask & loaderIO.input_data) ? true : false;
     }
 
     void SDLC_C_Write(uint8_t io, bool val) {
@@ -236,4 +243,38 @@ namespace PSOC {
         else
             loaderIO.do_clear(io);
     }
+
+    bool SDLC_L_Read(uint32_t mask) {
+        return (mask & leftIO.input_data) ? true : false;
+    }
+
+    void SDLC_L_Write(uint8_t io, bool val) {
+        if (val)
+            leftIO.do_set(io);
+        else
+            leftIO.do_clear(io);
+    }
+
+    bool SDLC_R_Read(uint32_t mask) {
+        return (mask & rightIO.input_data) ? true : false;
+    }
+
+    void SDLC_R_Write(uint8_t io, bool val) {
+        if (val)
+            rightIO.do_set(io);
+        else
+            rightIO.do_clear(io);
+    }
+
+    bool SDLC_H_Read(uint32_t mask) {
+        return (mask & headIO.input_data) ? true : false;
+    }
+
+    void SDLC_H_Write(uint8_t io, bool val) {
+        if (val)
+            headIO.do_set(io);
+        else
+            headIO.do_clear(io);
+    }
+
 }

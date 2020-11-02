@@ -59,17 +59,14 @@ struct Hal {
         bool motor_fault;
         bool estop_lamp;
 
-        feeder_front_fault = PSOC::SDLC_C_Read(1 << 22);
-        feeder_rear_fault = 0;
+        feeder_front_fault = !PSOC::SDLC_R_Read(1 << 9);
+        feeder_rear_fault = !PSOC::SDLC_L_Read(1 << 30);
         feeder_fault = feeder_front_fault || feeder_rear_fault;
 
-        motor_ac_fault = false; //!gpio_read_input(9);
-        motor_dc_fault = false; //!gpio_read_input(10);
-        power_good = true; //gpio_read_input(11);
+        motor_ac_fault = gpio_read_input(7);
+        motor_dc_fault = gpio_read_input(8);
+        power_good = gpio_read_input(9);
         motor_fault = !power_good || motor_ac_fault || motor_dc_fault;
-
-        estop_lamp = motor_fault || feeder_fault;
-        PSOC::SDLC_C_Write(0, estop_lamp);
 
         if (motor_fault) {
             estop_machine();
@@ -79,6 +76,9 @@ struct Hal {
         if (feeder_fault) {
             estop_machine();
         }
+
+        estop_lamp = cm->machine_state == MACHINE_ALARM;
+        PSOC::SDLC_R_Write(1, estop_lamp);
 
         /* Inhibit X/Y movement if either U or V are lowered */
         if ((cm_get_absolute_position(MODEL, AXIS_U) < -10) ||

@@ -4,12 +4,45 @@
 using namespace Motate;
 
 template<> _pinChangeInterrupt * PortHardware<'C'>::_firstInterrupt = nullptr;
+template<> _pinChangeInterrupt * PortHardware<'L'>::_firstInterrupt = nullptr;
+template<> _pinChangeInterrupt * PortHardware<'R'>::_firstInterrupt = nullptr;
+template<> _pinChangeInterrupt * PortHardware<'H'>::_firstInterrupt = nullptr;
 template<> _pinChangeInterrupt * PortHardware<'S'>::_firstInterrupt = nullptr;
 
 namespace PSOC {
 
     void SDLC_C_Handler(uint32_t mask) {
         _pinChangeInterrupt *current = PortHardware<'C'>::_firstInterrupt;
+        while (current != nullptr) {
+            if ((mask & current->pc_mask) && (current->interrupt_handler)) {
+                current->interrupt_handler();
+            }
+            current = current->next;
+        }
+    }
+
+    void SDLC_L_Handler(uint32_t mask) {
+        _pinChangeInterrupt *current = PortHardware<'L'>::_firstInterrupt;
+        while (current != nullptr) {
+            if ((mask & current->pc_mask) && (current->interrupt_handler)) {
+                current->interrupt_handler();
+            }
+            current = current->next;
+        }
+    }
+
+    void SDLC_R_Handler(uint32_t mask) {
+        _pinChangeInterrupt *current = PortHardware<'R'>::_firstInterrupt;
+        while (current != nullptr) {
+            if ((mask & current->pc_mask) && (current->interrupt_handler)) {
+                current->interrupt_handler();
+            }
+            current = current->next;
+        }
+    }
+
+    void SDLC_H_Handler(uint32_t mask) {
+        _pinChangeInterrupt *current = PortHardware<'H'>::_firstInterrupt;
         while (current != nullptr) {
             if ((mask & current->pc_mask) && (current->interrupt_handler)) {
                 current->interrupt_handler();

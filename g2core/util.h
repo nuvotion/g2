@@ -68,7 +68,7 @@ extern float vector[AXES]; // vector of axes for passing to subroutines
 
 float get_axis_vector_length(const float a[], const float b[]);
 uint8_t vector_equal(const float a[], const float b[]);
-float *set_vector(float x, float y, float z, float a, float b, float c);
+float *set_vector(float x, float y, float z, float a, float b, float c, float u, float v, float w);
 float *set_vector_by_axis(float value, uint8_t axis);
 
 // *** canned initializers ***

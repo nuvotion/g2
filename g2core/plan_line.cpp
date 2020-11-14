@@ -643,6 +643,9 @@ static void _calculate_vmaxes(mpBuf_t* bf, const float axis_length[], const floa
             // if no linear axes, compute length of multi-axis rotary move in degrees. 
             // Feed rate is provided as degrees/min
             if (fp_ZERO(feed_time)) {
+                feed_time = sqrt(axis_square[AXIS_U] + axis_square[AXIS_V] + axis_square[AXIS_W]) / bf->gm.feed_rate;
+            }
+            if (fp_ZERO(feed_time)) {
                 feed_time = sqrt(axis_square[AXIS_A] + axis_square[AXIS_B] + axis_square[AXIS_C]) / bf->gm.feed_rate;
             }
         }

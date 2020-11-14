@@ -63,6 +63,9 @@ uint8_t vector_equal(const float a[], const float b[])
     if ((fp_EQ(a[AXIS_X], b[AXIS_X])) &&
         (fp_EQ(a[AXIS_Y], b[AXIS_Y])) &&
         (fp_EQ(a[AXIS_Z], b[AXIS_Z])) &&
+        (fp_EQ(a[AXIS_U], b[AXIS_U])) &&
+        (fp_EQ(a[AXIS_V], b[AXIS_V])) &&
+        (fp_EQ(a[AXIS_W], b[AXIS_W])) &&
         (fp_EQ(a[AXIS_A], b[AXIS_A])) &&
         (fp_EQ(a[AXIS_B], b[AXIS_B])) &&
         (fp_EQ(a[AXIS_C], b[AXIS_C]))) {
@@ -76,16 +79,22 @@ float get_axis_vector_length(const float a[], const float b[])
     return (sqrt(square(a[AXIS_X] - b[AXIS_X]) +
                  square(a[AXIS_Y] - b[AXIS_Y]) +
                  square(a[AXIS_Z] - b[AXIS_Z]) +
+                 square(a[AXIS_U] - b[AXIS_U]) +
+                 square(a[AXIS_V] - b[AXIS_V]) +
+                 square(a[AXIS_W] - b[AXIS_W]) +
                  square(a[AXIS_A] - b[AXIS_A]) +
                  square(a[AXIS_B] - b[AXIS_B]) +
                  square(a[AXIS_C] - b[AXIS_C])));
 }
 
-float *set_vector(float x, float y, float z, float a, float b, float c)
+float *set_vector(float x, float y, float z, float a, float b, float c, float u, float v, float w)
 {
     vector[AXIS_X] = x;
     vector[AXIS_Y] = y;
     vector[AXIS_Z] = z;
+    vector[AXIS_U] = u;
+    vector[AXIS_V] = v;
+    vector[AXIS_W] = w;
     vector[AXIS_A] = a;
     vector[AXIS_B] = b;
     vector[AXIS_C] = c;
@@ -99,6 +108,9 @@ float *set_vector_by_axis(float value, uint8_t axis)
         case (AXIS_X): vector[AXIS_X] = value; break;
         case (AXIS_Y): vector[AXIS_Y] = value; break;
         case (AXIS_Z): vector[AXIS_Z] = value; break;
+        case (AXIS_U): vector[AXIS_U] = value; break;
+        case (AXIS_V): vector[AXIS_V] = value; break;
+        case (AXIS_W): vector[AXIS_W] = value; break;
         case (AXIS_A): vector[AXIS_A] = value; break;
         case (AXIS_B): vector[AXIS_B] = value; break;
         case (AXIS_C): vector[AXIS_C] = value;

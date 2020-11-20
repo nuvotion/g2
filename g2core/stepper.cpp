@@ -286,7 +286,7 @@ void dda_timer_type::interrupt()
         st_run.mot[motor].substep_accumulator += st_run.mot[motor].substep_increment;
         steps = st_run.mot[motor].substep_accumulator >> FRACTIONAL_BITS;
         st_run.mot[motor].substep_accumulator &= ((1 << FRACTIONAL_BITS) - 1);
-        Motors[motor]->stepStart(steps); // Send steps
+        Motors[motor]->stepStart(st_cfg.mot[motor].polarity ? -steps : steps); // Send steps
         INCREMENT_ENCODER(motor, steps);
     }
 
@@ -669,7 +669,6 @@ stat_t st_prep_line(float travel_steps[], float following_error[], float segment
 
         //st_pre.mot[motor].substep_increment = round(fabs(travel_steps[motor] * DDA_SUBSTEPS));
         st_pre.mot[motor].substep_increment = round(travel_steps[motor] / st_pre.dda_ticks * (1 << FRACTIONAL_BITS));
-        if (st_cfg.mot[motor].polarity) st_pre.mot[motor].substep_increment = -st_pre.mot[motor].substep_increment;
     }
     st_pre.block_type = BLOCK_TYPE_ALINE;
     st_pre.buffer_state = PREP_BUFFER_OWNED_BY_LOADER;    // signal that prep buffer is ready

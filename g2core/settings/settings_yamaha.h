@@ -18,7 +18,7 @@
 #define Y_VELOCITY_MAX              (800.0*60)
 #define Y_FEEDRATE_MAX              Y_VELOCITY_MAX
 #define Y_TRAVEL_MIN                -10.0
-#define Y_TRAVEL_MAX                590.0
+#define Y_TRAVEL_MAX                594.5
 #define Y_JERK_MAX                  1000.0
 #define Y_JERK_HIGH_SPEED           1000.0
 #define Y_HOMING_INPUT              2

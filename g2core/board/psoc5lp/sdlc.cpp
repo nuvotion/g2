@@ -229,6 +229,7 @@ namespace PSOC {
             case 3: board = &loaderIO; break;
         }
 
+        memset(rx_data, 0, 20);
         SDLC_SendReceive(board->get_packet_len(), 20, board->get_packet(), rx_data);
 
     }, nullptr};

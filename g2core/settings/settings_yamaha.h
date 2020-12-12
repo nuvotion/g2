@@ -1,11 +1,11 @@
 #define SOFT_LIMIT_ENABLE           1
 
 #define X_AXIS_MODE                 AXIS_STANDARD
-#define X_VELOCITY_MAX              (800.0*60)
+#define X_VELOCITY_MAX              (1600.0*60)
 #define X_FEEDRATE_MAX              X_VELOCITY_MAX
 #define X_TRAVEL_MIN                0.0
 #define X_TRAVEL_MAX                685.0
-#define X_JERK_MAX                  1000.0
+#define X_JERK_MAX                  10000.0
 #define X_JERK_HIGH_SPEED           1000.0
 #define X_HOMING_INPUT              1
 #define X_HOMING_DIRECTION          0
@@ -15,11 +15,11 @@
 #define X_ZERO_BACKOFF              0.0
 
 #define Y_AXIS_MODE                 AXIS_STANDARD
-#define Y_VELOCITY_MAX              (800.0*60)
+#define Y_VELOCITY_MAX              (1600.0*60)
 #define Y_FEEDRATE_MAX              Y_VELOCITY_MAX
 #define Y_TRAVEL_MIN                -10.0
 #define Y_TRAVEL_MAX                594.5
-#define Y_JERK_MAX                  1000.0
+#define Y_JERK_MAX                  8000.0
 #define Y_JERK_HIGH_SPEED           1000.0
 #define Y_HOMING_INPUT              2
 #define Y_HOMING_DIRECTION          0
@@ -33,7 +33,7 @@
 #define U_FEEDRATE_MAX              U_VELOCITY_MAX
 #define U_TRAVEL_MIN                -76.0
 #define U_TRAVEL_MAX                0.0
-#define U_JERK_MAX                  1000.0
+#define U_JERK_MAX                  20000.0
 #define U_JERK_HIGH_SPEED           1000.0
 #define U_HOMING_INPUT              3
 #define U_HOMING_DIRECTION          1
@@ -47,7 +47,7 @@
 #define V_FEEDRATE_MAX              V_VELOCITY_MAX
 #define V_TRAVEL_MIN                -76.0
 #define V_TRAVEL_MAX                0.0
-#define V_JERK_MAX                  1000.0
+#define V_JERK_MAX                  20000.0
 #define V_JERK_HIGH_SPEED           1000.0
 #define V_HOMING_INPUT              4
 #define V_HOMING_DIRECTION          1
@@ -62,7 +62,7 @@
 #define A_FEEDRATE_MAX              A_VELOCITY_MAX
 #define A_TRAVEL_MIN                0.0
 #define A_TRAVEL_MAX                0.0
-#define A_JERK_MAX                  1000.0
+#define A_JERK_MAX                  10000.0
 #define A_JERK_HIGH_SPEED           1000.0
 #define A_HOMING_INPUT              5
 #define A_HOMING_DIRECTION          1
@@ -77,7 +77,7 @@
 #define B_FEEDRATE_MAX              B_VELOCITY_MAX
 #define B_TRAVEL_MIN                0.0
 #define B_TRAVEL_MAX                0.0
-#define B_JERK_MAX                  1000.0
+#define B_JERK_MAX                  10000.0
 #define B_JERK_HIGH_SPEED           1000.0
 #define B_HOMING_INPUT              6
 #define B_HOMING_DIRECTION          1

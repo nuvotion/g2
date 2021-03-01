@@ -59,7 +59,7 @@ struct Hal {
         bool motor_fault;
         bool estop_lamp;
 
-        feeder_front_fault = !PSOC::SDLC_R_Read(1 << 9);
+        feeder_front_fault = PSOC::SDLC_R_Read(1 << 9);
         feeder_rear_fault = !PSOC::SDLC_L_Read(1 << 30);
         feeder_fault = feeder_front_fault || feeder_rear_fault;
 

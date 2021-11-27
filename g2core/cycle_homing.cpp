@@ -68,6 +68,7 @@ struct hmHomingSingleton {          // persistent homing runtime variables
     cmFeedRateMode saved_feed_rate_mode;  // G93, G94 global setting
     float          saved_feed_rate;       // F setting
     float          saved_jerk;            // saved and restored for each axis homed
+    bool	   saved_soft_limits;     // Need to disable soft limits to home
 };
 static struct hmHomingSingleton hm;
 
@@ -152,6 +153,7 @@ stat_t cm_homing_cycle_start(const float axes[], const bool flags[]) {
     hm.saved_distance_mode  = (cmDistanceMode)cm_get_distance_mode(ACTIVE_MODEL);
     hm.saved_feed_rate_mode = (cmFeedRateMode)cm_get_feed_rate_mode(ACTIVE_MODEL);
     hm.saved_feed_rate      = cm_get_feed_rate(ACTIVE_MODEL);
+    hm.saved_soft_limits    = cm_get_soft_limits(); 
 
 //    copy_vector(hm.axes, axes);
     copy_vector(hm.axis_flags, flags);
@@ -165,6 +167,8 @@ stat_t cm_homing_cycle_start(const float axes[], const bool flags[]) {
 
     // clear rotation matrix
     canonical_machine_reset_rotation(cm);
+
+    cm_set_soft_limits(false);
 
     hm.axis          = -1;                  // set to retrieve initial axis
     hm.func          = _homing_axis_start;  // bind initial processing function
@@ -344,7 +348,7 @@ static stat_t _homing_axis_setpoint_backoff(int8_t axis)  //
 static stat_t _homing_axis_set_position(int8_t axis)
 {
     if (hm.set_coordinates) {
-        cm_set_position_by_axis(axis, hm.setpoint);
+        cm_set_position_by_axis(axis, 0);
         cm->homed[axis] = true;
 
     } else {  // handle G28.4 cycle - set position to the point of switch closure
@@ -421,6 +425,7 @@ static stat_t _homing_finalize_exit(int8_t axis)  // third part of return to hom
     cm_set_distance_mode(hm.saved_distance_mode);
     cm_set_feed_rate_mode(hm.saved_feed_rate_mode);
     cm_set_feed_rate(hm.saved_feed_rate);
+    cm_set_soft_limits(hm.saved_soft_limits);
     cm_set_motion_mode(MODEL, MOTION_MODE_CANCEL_MOTION_MODE);
     cm_canned_cycle_end();
     return (STAT_OK);

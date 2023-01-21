@@ -275,12 +275,16 @@ stat_t sr_request_status_report(cmStatusReportRequest request_type)
         sr.status_report_request = SR_VERBOSE;      // will always trigger verbose report, regardless of verbosity setting
 
     } else if (request_type == SR_REQUEST_TIMED) {
+#ifndef DISABLE_TIMED_STATUS_REPORTS
         sr.status_report_request = sr.status_report_verbosity;
         sr.status_report_systick += sr.status_report_interval;
+#endif
 
     } else {
+#ifndef DISABLE_TIMED_STATUS_REPORTS
         sr.status_report_request = SR_VERBOSE;
         sr.status_report_systick += sr.status_report_interval;
+#endif
     }
     return (STAT_OK);
 }

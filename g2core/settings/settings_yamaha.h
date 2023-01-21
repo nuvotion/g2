@@ -126,3 +126,5 @@
 #define DI9_MODE                    IO_ACTIVE_LOW           /* Motor power good */
 #define DI12_MODE                   IO_ACTIVE_HIGH          /* USB VBUS Detect */
 #define DI5_FUNCTION                INPUT_FUNCTION_NONE
+
+#define DISABLE_TIMED_STATUS_REPORTS

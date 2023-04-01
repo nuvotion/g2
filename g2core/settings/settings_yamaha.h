@@ -17,7 +17,7 @@
 #define Y_AXIS_MODE                 AXIS_STANDARD
 #define Y_VELOCITY_MAX              (1600.0*60)
 #define Y_FEEDRATE_MAX              Y_VELOCITY_MAX
-#define Y_TRAVEL_MIN                -10.0
+#define Y_TRAVEL_MIN                -15.0
 #define Y_TRAVEL_MAX                594.8
 #define Y_JERK_MAX                  8000.0
 #define Y_JERK_HIGH_SPEED           1000.0

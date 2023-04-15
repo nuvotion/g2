@@ -69,7 +69,7 @@
 #define A_SEARCH_VELOCITY           (50.0*60)
 #define A_LATCH_VELOCITY            (2.0*60)
 #define A_LATCH_BACKOFF             20.0
-#define A_ZERO_BACKOFF              90.0
+#define A_ZERO_BACKOFF              98.0
 
 #define B_AXIS_MODE                 AXIS_RADIUS
 #define B_RADIUS                    (360.0/2.0/M_PI)
@@ -84,7 +84,7 @@
 #define B_SEARCH_VELOCITY           (50.0*60)
 #define B_LATCH_VELOCITY            (2.0*60)
 #define B_LATCH_BACKOFF             20.0
-#define B_ZERO_BACKOFF              90.0
+#define B_ZERO_BACKOFF              91.0
 
 #define M1_MOTOR_MAP                AXIS_X_EXTERNAL
 #define M1_STEPS_PER_UNIT           100

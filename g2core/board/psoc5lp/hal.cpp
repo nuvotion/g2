@@ -57,6 +57,7 @@ struct Hal {
         bool motor_dc_fault;
         bool power_good;
         bool motor_fault;
+        bool air_fault;
         bool estop_lamp;
 
         feeder_front_fault = PSOC::SDLC_R_Read(1 << 9);
@@ -68,12 +69,14 @@ struct Hal {
         power_good = gpio_read_input(9);
         motor_fault = !power_good || motor_ac_fault || motor_dc_fault;
 
+        air_fault = PSOC::SDLC_L_Read(1 << 8);
+
         if (motor_fault) {
             estop_machine();
             unhome();
         }
 
-        if (feeder_fault) {
+        if (feeder_fault || air_fault) {
             estop_machine();
         }
 

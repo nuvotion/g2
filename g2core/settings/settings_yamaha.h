@@ -32,7 +32,7 @@
 #define U_VELOCITY_MAX              (400.0*60)
 #define U_FEEDRATE_MAX              U_VELOCITY_MAX
 #define U_TRAVEL_MIN                -76.0
-#define U_TRAVEL_MAX                0.0
+#define U_TRAVEL_MAX                1.0
 #define U_JERK_MAX                  20000.0
 #define U_JERK_HIGH_SPEED           1000.0
 #define U_HOMING_INPUT              3
@@ -46,7 +46,7 @@
 #define V_VELOCITY_MAX              (400.0*60)
 #define V_FEEDRATE_MAX              V_VELOCITY_MAX
 #define V_TRAVEL_MIN                -76.0
-#define V_TRAVEL_MAX                0.0
+#define V_TRAVEL_MAX                1.0
 #define V_JERK_MAX                  20000.0
 #define V_JERK_HIGH_SPEED           1000.0
 #define V_HOMING_INPUT              4
